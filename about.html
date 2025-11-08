@@ -2,222 +2,1198 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
-<title>About — Trove Digital | Small Studio Making Singular Web Pieces</title>
+<script>
+// Apply theme immediately to prevent flash
+(function(){
+  const saved = localStorage.getItem('trove-theme');
+  const system = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  const theme = saved || system;
+  document.documentElement.setAttribute('data-theme', theme);
+})();
+</script>
+<title>About — Trove Digital | Product Engineering Professionals</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <!-- SEO Meta Tags -->
-<meta name="description" content="We're a small studio making singular web pieces. Started in a shed at home, we work with SMEs and founders who want their site to feel considered, load fast, and help them stand out." />
-<meta name="keywords" content="web design studio, bespoke websites, custom web development, SME web solutions, digital agency about" />
-<meta name="author" content="Trove Digital" />
-<meta name="robots" content="index, follow" />
-<link rel="canonical" href="https://trovedigital.com/about.html" />
+<meta name="description" content="A small team of product engineering professionals. We design and build websites and lightweight apps that solve real business problems with speed, clarity, and finish." />
+<meta name="keywords" content="product engineering, web development, UX design, custom apps, business tools" />
 
-<!-- Open Graph Meta Tags -->
-<meta property="og:title" content="About — Trove Digital | Small Studio Making Singular Web Pieces" />
-<meta property="og:description" content="We're a small studio making singular web pieces. We work with SMEs and founders who want their site to feel considered, load fast, and help them stand out." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://trovedigital.com/about.html" />
-<meta property="og:site_name" content="Trove Digital" />
-
-<!-- Twitter Card Meta Tags -->
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="About — Trove Digital | Small Studio Making Singular Web Pieces" />
-<meta name="twitter:description" content="We're a small studio making singular web pieces. We work with SMEs and founders who want their site to feel considered, load fast, and help them stand out." />
-
-<!-- Additional SEO -->
-<meta name="theme-color" content="#6f64ff" />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
 <!-- Favicon -->
 <link rel="icon" type="image/png" href="trove_logo_only-removebg-preview.png" />
 <link rel="apple-touch-icon" href="trove_logo_only-removebg-preview.png" />
+
 <style>
-:root{ --bg:#0a0a0c; --fg:#fff; --soft:#f3f4f8; --muted:#c9cbd3; --hair:#ffffff26; --accent:#6f64ff }
-html[data-theme="light"]{ --bg:#ffffff; --fg:#0b0e14; --soft:#0e1117; --muted:#2d313c; --hair:#00000022; --accent:#4c57ff }
-*{box-sizing:border-box} html,body{margin:0;height:100%;background:var(--bg);color:var(--fg)}
-body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-a{color:inherit}
-.topbar{position:fixed;top:16px;right:16px;left:16px;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:18px}
-.nav-logo{display:flex;align-items:center;}
-.nav-logo img{
-  height:40px;width:auto;
-  transition:transform .3s ease, filter .3s ease;
-  animation:logoFloat 4s ease-in-out infinite;
+:root {
+  /* Vibrant color system */
+  --bg:#0a0a0c; --fg:#ffffff; --fg-soft:#f5f6f8; --muted:#c9cbd3;
+  --panel:#101015; --hair:#ffffff26;
+  --accent:#7d6eff; --accent-2:#ff7394; --accent-warm:#ff6b5e;
+  --block:28px;
+  --bg-rgb:10, 10, 12;
+
+  /* CTA colors */
+  --cta-fg:#ffffff;
+  --cta-bg:#7d6eff;
+  --cta-shadow:0 8px 24px rgba(125,110,255,.4);
+
+  --headline-shadow:0 0 26px rgba(140,120,255,.30);
+  --hero-gradient: linear-gradient(135deg, rgba(125,110,255,.12) 0%, rgba(255,115,148,.12) 50%, rgba(255,107,94,.12) 100%);
 }
-.nav-logo:hover img{transform:scale(1.1) rotate(2deg); filter:brightness(1.1);}
+html[data-theme="light"]{
+  --bg:#ffffff; --fg:#0b0e14; --fg-soft:#111318; --muted:#2d313c;
+  --panel:#ffffff; --hair:#00000022;
+  --accent:#5d69ff; --accent-2:#ff6f92; --accent-warm:#ff6952;
+  --bg-rgb:255, 255, 255;
+  --topbar-bg:rgba(255,255,255,.85);
+
+  --cta-fg:#ffffff;
+  --cta-bg:#5d69ff;
+  --cta-shadow:0 6px 20px rgba(93,105,255,.35);
+
+  --headline-shadow:none;
+  --hero-gradient: linear-gradient(135deg, rgba(93,105,255,.08) 0%, rgba(255,111,146,.08) 50%, rgba(255,105,82,.08) 100%);
+}
+html[data-theme="light"] .topbar{
+  background:var(--topbar-bg);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--fg)}
+body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow-x:hidden;transition:background .2s,color .2s}
+a{color:inherit}
+:focus-visible{ outline:2px solid color-mix(in oklab, var(--accent) 70%, transparent); outline-offset:3px; border-radius:6px }
+
+/* Animated gradient background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--hero-gradient);
+  animation: gradientShift 8s ease-in-out infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+@keyframes gradientShift {
+  0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  50% { opacity: 0.8; transform: scale(1.05) rotate(2deg); }
+}
+
+/* Top bar */
+.topbar{
+  position:fixed; top:0; right:0; left:0; z-index:3;
+  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  background:rgba(10,10,12,.85);
+  border-bottom:1px solid var(--hair);
+  padding:16px clamp(20px,4vw,40px);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  box-shadow:0 2px 12px rgba(0,0,0,.08);
+  transition:padding .2s, box-shadow .2s;
+}
+.nav-logo{display:flex; align-items:center; text-decoration:none;}
+.nav-logo img{
+  height:56px; width:auto;
+  transition:transform .2s ease, filter .2s ease;
+  animation:logoFloat 3s ease-in-out infinite;
+}
+.nav-logo:hover img{transform:scale(1.12) rotate(3deg); filter:brightness(1.15);}
 
 @keyframes logoFloat {
   0%, 100% { transform:translateY(0px) rotate(0deg); }
-  50% { transform:translateY(-2px) rotate(1deg); }
+  50% { transform:translateY(-3px) rotate(1.5deg); }
 }
-.nav-right{display:flex;align-items:center;gap:18px}
-.nav-link{text-decoration:underline;color:var(--fg);font-weight:600;font-size:14px;opacity:.92}
-.nav-link:hover{opacity:1}
-.icon-toggle{width:36px;height:36px;display:grid;place-items:center;background:transparent;border:1px solid var(--hair);border-radius:50%;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.icon-toggle svg{width:18px;height:18px;color:var(--fg)}
+.nav-logo-text {
+  margin-left: 12px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+}
+
+.mobile-brand {
+  display: none;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+}
+.nav-right{display:flex; align-items:center; gap:24px}
+.nav-link{
+  text-decoration:none; color:var(--fg); font-weight:600; font-size:15px;
+  opacity:.9; transition: opacity .15s;
+  padding:8px 12px; border-radius:6px;
+}
+.nav-link:hover{opacity:1; background:rgba(255,255,255,.08)}
+
+.icon-toggle{
+  width:44px;height:44px;display:grid;place-items:center;
+  background:transparent;border:none;
+  cursor:pointer;transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);
+  position:relative;
+}
+.icon-toggle:hover{transform:scale(1.15)}
+.icon-toggle:active{transform:scale(0.95)}
+.icon-toggle svg{width:22px;height:22px;color:var(--fg);transition:transform .3s, opacity .2s;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))}
+.icon-toggle:hover svg{transform:rotate(20deg)}
+
+/* Mobile menu toggle button */
+.mobile-menu-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  background: var(--panel);
+  border: 1px solid var(--hair);
+  border-radius: 8px;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0;
+  transition: transform .2s;
+}
+.mobile-menu-toggle:hover {
+  transform: scale(1.05);
+}
+.mobile-menu-toggle span {
+  width: 20px;
+  height: 2px;
+  background: var(--fg);
+  border-radius: 2px;
+  transition: transform .3s, opacity .3s;
+}
+.mobile-menu-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.mobile-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+.mobile-menu-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile drawer */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  height: 100vh;
+  background: var(--panel);
+  border-left: 1px solid var(--hair);
+  z-index: 1000;
+  transition: right 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+.mobile-drawer.active {
+  right: 0;
+}
+.mobile-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--hair);
+}
+.mobile-drawer-header h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--accent);
+}
+.mobile-close {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  transition: background .2s;
+}
+.mobile-close:hover {
+  background: rgba(255,255,255,.1);
+}
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mobile-nav-links .nav-link {
+  padding: 14px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: background .2s, color .2s;
+}
+.mobile-nav-links .nav-link:hover {
+  background: rgba(125,110,255,.1);
+  color: var(--accent);
+}
+
+/* Mobile overlay */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.mobile-overlay.active {
+  display: block;
+  opacity: 1;
+}
 
 /* Mobile navigation */
 @media (max-width: 768px) {
-  .topbar { top:12px; right:12px; left:12px; gap:12px; padding:8px 0; }
-  .nav-logo img { height:34px; }
-  .nav-right { gap:14px; flex-wrap:wrap; }
-  .nav-link { font-size:13px; padding:8px 6px; min-width:48px; text-align:center; border-radius:6px; }
-  .nav-link:hover { background:var(--hair); }
-  .icon-toggle { width:40px; height:40px; }
-  .icon-toggle svg { width:20px; height:20px; }
-}
-@media (max-width: 480px) {
-  .nav-right { justify-content:center; width:100%; }
-  .nav-link { font-size:12px; padding:6px 4px; min-width:42px; }
+  .topbar { padding:12px 20px; gap:12px; }
+  .nav-logo img { height:48px; }
+  .nav-right { display: none; }
+  .mobile-brand { display: block; }
+  .nav-logo-text { display: none; }
+  .mobile-menu-toggle { display: flex; }
 }
 
-.header{
-  min-height:60vh; display:grid; align-items:end; padding:clamp(40px,8vw,100px) clamp(20px,6vw,80px);
-  position:relative; overflow:hidden; border-bottom:1px solid var(--hair);
+/* Main content wrapper */
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+  padding-top: 88px;
 }
-.header::before, .header::after{
-  content:""; position:absolute; inset:-20%; background:
-    conic-gradient(from 0deg at 50% 50%, color-mix(in oklab, var(--accent) 40%, transparent) 0 90deg, transparent 0),
-    conic-gradient(from 90deg at 50% 50%, color-mix(in oklab, var(--accent) 20%, transparent) 0 90deg, transparent 0);
-  mix-blend-mode:plus-lighter; opacity:.18; transform:rotate(10deg) scale(1.05); pointer-events:none;
+
+/* Hero section */
+.hero{
+  padding:clamp(60px,12vw,120px) clamp(20px,6vw,80px) clamp(40px,8vw,60px);
+  text-align:center;
+  max-width:1200px;
+  margin:0 auto;
 }
-.header::after{ transform:rotate(-8deg) scale(1.1); opacity:.12 }
-.kicker{ color:var(--muted); font-size:12px; letter-spacing:.2px; text-transform:uppercase; margin:0 0 8px 0 }
-.title{ font-family:'Playfair Display',serif; font-size: clamp(36px, 8vw, 96px); line-height:.92; margin:0; position:relative }
+.hero h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(48px,9vw,96px);
+  line-height:1.05;
+  margin:0 0 20px 0;
+  font-weight:700;
+  letter-spacing:-0.02em;
+  text-shadow:var(--headline-shadow);
+}
+.hero p{
+  color:var(--muted);
+  font-size:clamp(18px,2.2vw,22px);
+  max-width:68ch;
+  margin:0 auto 40px auto;
+  line-height:1.5;
+}
+.hero-ctas {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+  padding: 0 32px;
+  border-radius: 14px;
+  background: var(--cta-bg);
+  color: var(--cta-fg);
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  transition: transform .12s, box-shadow .12s;
+  box-shadow: var(--cta-shadow);
+}
+.cta-primary svg {
+  width: 18px;
+  height: 18px;
+  transition: transform .12s;
+}
+.cta-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 20px 44px rgba(125,110,255,.5);
+}
+.cta-primary:hover svg {
+  transform: translateX(4px);
+}
+.cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+  padding: 0 32px;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--fg);
+  border: 1.5px solid var(--hair);
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  transition: transform .12s, border-color .12s, background .12s;
+}
+.cta-secondary:hover {
+  background: rgba(255,255,255,.05);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
 
-.lede{ padding:clamp(28px,6vw,60px) clamp(20px,6vw,80px); color:var(--soft); max-width:72ch; font-size:clamp(16px,2.1vw,20px) }
+/* Section styles */
+.section {
+  padding: clamp(60px,12vw,120px) clamp(20px,6vw,80px);
+  border-top: 1px solid var(--hair);
+  background: var(--bg);
+  position: relative;
+  z-index: 1;
+}
+.section-header {
+  text-align: center;
+  margin-bottom: clamp(48px,8vw,80px);
+}
+.section-header h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(38px,7.5vw,76px);
+  line-height: 1;
+  margin: 0 0 20px 0;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.section-header p {
+  color: var(--muted);
+  font-size: clamp(17px,2.2vw,20px);
+  margin: 0;
+  line-height: 1.4;
+  max-width: 64ch;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-.section{ border-top:1px solid var(--hair); padding: clamp(24px,6vw,64px) clamp(20px,6vw,80px) }
-.grid{ max-width:1100px; margin:0 auto; display:grid; gap:20px }
-.row{ display:grid; grid-template-columns:160px 1fr; gap:18px; align-items:start }
-.label{ color:var(--muted); font-weight:700; font-size:12px; letter-spacing:.2px; text-transform:uppercase }
-.text{ color:var(--soft); line-height:1.6 }
+/* List grid */
+.list-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+}
+.list-item {
+  background: var(--panel);
+  border: 1.5px solid var(--hair);
+  border-radius: 16px;
+  padding: clamp(28px,4vw,40px);
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+.list-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 20px 40px rgba(0,0,0,.3);
+}
+.list-item h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(18px,2.5vw,22px);
+  margin: 0 0 12px 0;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--accent);
+}
+.list-item p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+}
 
-.cta{
-  display:inline-flex;
-  height:40px;               /* thinner */
-  padding:0 14px;            /* narrower horizontally */
+/* Anything Section */
+.anything-section {
+  margin-top: clamp(60px,10vw,80px);
+  text-align: center;
+  position: relative;
+}
+.anything-content {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: clamp(32px,5vw,48px) clamp(24px,4vw,40px);
+  background: var(--panel);
+  border: 2px dashed var(--hair);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+.anything-content:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.anything-content h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(22px,4vw,32px);
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  color: var(--fg);
+  line-height: 1.2;
+}
+.anything-content p {
+  font-size: clamp(16px,2vw,18px);
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Principles list */
+.principles-list {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  gap: 16px;
+}
+.principle-item {
+  background: var(--panel);
+  border: 1px solid var(--hair);
+  border-radius: 12px;
+  padding: 24px 28px;
+  transition: border-color .2s, box-shadow .2s;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.principle-item:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(0,0,0,.1);
+}
+.principle-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.principle-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(18px,2.5vw,22px);
+  font-weight: 600;
+  margin: 0;
+  color: var(--fg-soft);
+  line-height: 1.3;
+}
+
+/* Capabilities grid */
+.capabilities-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  gap: 24px;
+}
+.capability-item {
+  background: var(--panel);
+  border: 1.5px solid var(--hair);
+  border-radius: 16px;
+  padding: clamp(28px,4vw,36px);
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+.capability-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 20px 40px rgba(0,0,0,.3);
+}
+.capability-item h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(20px,3vw,26px);
+  margin: 0 0 16px 0;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--accent);
+}
+.capability-item p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Stack section */
+.stack-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+.stack-item {
+  background: var(--panel);
+  border: 1.5px solid var(--hair);
+  border-radius: 16px;
+  padding: clamp(28px,4vw,36px);
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+.stack-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 20px 40px rgba(0,0,0,.3);
+}
+.stack-item h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(18px,2.5vw,22px);
+  margin: 0 0 12px 0;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--accent);
+}
+.stack-item p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Results list */
+.results-list {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  gap: 20px;
+}
+.result-item {
+  background: var(--panel);
+  border-left: 4px solid var(--accent);
+  border-radius: 12px;
+  padding: 24px 28px;
+  transition: box-shadow .2s, transform .2s;
+}
+.result-item:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+  transform: translateX(4px);
+}
+.result-item p {
+  color: var(--fg-soft);
+  font-size: clamp(16px,2vw,18px);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Testimonials */
+.testimonials-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+.testimonial-card {
+  background: var(--panel);
+  border: 1.5px solid var(--hair);
+  border-radius: 16px;
+  padding: clamp(32px,5vw,48px);
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+  position: relative;
+  overflow: hidden;
+}
+.testimonial-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-warm));
+  opacity: 0;
+  transition: opacity .2s;
+}
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow: 0 20px 48px rgba(var(--bg-rgb), 0.4), 0 0 0 1px var(--accent);
+}
+.testimonial-card:hover::before {
+  opacity: 1;
+}
+.testimonial-quote {
+  color: var(--fg-soft);
+  font-size: clamp(17px,2.2vw,20px);
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+  font-style: italic;
+}
+.testimonial-author {
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* FAQ Section */
+.faq-list {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.faq-item {
+  margin-bottom: 16px;
+  background: var(--panel);
+  border: 1px solid var(--hair);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.faq-item:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(0,0,0,.1);
+}
+.faq-item.active {
+  border-color: var(--accent);
+}
+.faq-question-wrapper {
+  padding: 24px 28px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  user-select: none;
+}
+.faq-question {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(18px,2.5vw,22px);
+  font-weight: 700;
+  margin: 0;
+  color: var(--fg);
+  letter-spacing: -0.01em;
+  flex: 1;
+}
+.faq-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: var(--accent);
+  transition: transform 0.3s ease;
+}
+.faq-item.active .faq-icon {
+  transform: rotate(180deg);
+}
+.faq-answer-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+.faq-item.active .faq-answer-wrapper {
+  max-height: 500px;
+  padding: 0 28px 24px 28px;
+}
+.faq-answer {
+  color: var(--muted);
+  font-size: clamp(15px,2vw,17px);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Contact section */
+.contact-section {
+  padding: clamp(80px,14vw,140px) clamp(20px,6vw,80px);
+  border-top: 1px solid var(--hair);
+  background: var(--bg);
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+.contact-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+.contact-content h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(32px,6vw,56px);
+  line-height: 1.1;
+  margin: 0 0 20px 0;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.contact-content p {
+  color: var(--muted);
+  font-size: clamp(17px,2.2vw,20px);
+  margin: 0 0 40px 0;
+  line-height: 1.5;
+}
+.contact-ctas {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Footer */
+footer{
+  padding:64px clamp(20px,6vw,80px);
+  border-top:1px solid var(--hair);
+  display:flex;
   align-items:center;
-  gap:10px;
-  border-radius:10px;
-  font-weight:800;
-  font-size:14.5px;
-  color:#0b0e14;
-  background:linear-gradient(135deg,#f6f7ff,#dfe3ff);
-  border:1px solid rgba(0,0,0,.22);
-  text-decoration:none;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+  color:var(--muted);
+  position:relative;
+  z-index:1;
 }
-footer{ padding:64px clamp(20px,6vw,80px); border-top:1px solid var(--hair); display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; color:var(--muted) }
 
-/* Enhanced mobile experience for about page */
 @media (max-width: 768px) {
-  .header {
-    min-height:60vh; padding:clamp(40px,8vw,80px) clamp(20px,5vw,40px);
-    text-align:center; display:flex; flex-direction:column; justify-content:center;
+  .hero-ctas,
+  .contact-ctas {
+    flex-direction: column;
+    align-items: stretch;
   }
-  .kicker { font-size:11px; margin-bottom:12px; }
-  .title { font-size:clamp(32px,11vw,56px); text-align:center; line-height:1.1; }
-  .lede {
-    padding:clamp(32px,6vw,48px) clamp(20px,5vw,40px);
-    font-size:clamp(16px,4.5vw,19px); text-align:center; line-height:1.5;
+  .cta-primary,
+  .cta-secondary {
+    width: 100%;
+    justify-content: center;
   }
-  .section { padding:clamp(32px,6vw,48px) clamp(20px,5vw,40px); }
-  .grid { gap:32px; }
-  .row { grid-template-columns:1fr; gap:16px; text-align:left; padding:20px 0; }
-  .label { font-size:12px; text-align:center; margin-bottom:8px; }
-  .text { font-size:16px; line-height:1.6; text-align:center; }
-  .cta {
-    height:48px; padding:0 24px; font-size:16px;
-    margin:32px auto 0 auto; display:block; text-align:center;
-    border-radius:14px; min-width:180px;
+  .list-grid,
+  .stack-grid,
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  .principle-item {
+    flex-direction: column;
+    text-align: center;
   }
   footer {
-    padding:56px clamp(20px,5vw,40px); flex-direction:column;
-    text-align:center; gap:20px; font-size:15px;
+    padding:56px clamp(20px,5vw,40px);
+    flex-direction:column;
+    text-align:center;
+    gap:20px;
+    font-size:15px;
   }
-  footer nav { margin-top:8px; }
-}
-
-/* Extra small screens */
-@media (max-width: 480px) {
-  .header { min-height:50vh; }
-  .title { font-size:clamp(28px,12vw,40px); }
-  .lede { font-size:clamp(15px,4vw,17px); }
-  .text { font-size:15px; }
-  .grid { gap:24px; }
-  .row { padding:16px 0; }
+  .faq-question-wrapper {
+    padding: 20px;
+  }
+  .faq-item.active .faq-answer-wrapper {
+    padding: 0 20px 20px 20px;
+  }
 }
 </style>
 </head>
 <body>
-  <header class="topbar" role="navigation" aria-label="Primary">
-    <a href="index.html" class="nav-logo" aria-label="Trove Digital Home">
-      <img src="trove_logo_only-removebg-preview.png" alt="Trove Digital Logo" />
-    </a>
-    <div class="nav-right">
-      <a class="nav-link" href="index.html">Home</a>
-      <a class="nav-link" href="services.html">Services</a>
-      <a class="nav-link" href="about.html" aria-current="page">About</a>
-      <a class="nav-link" href="blog/index.html">Blog</a>
-      <a class="nav-link" href="mailto:tom@trovedigital.com?subject=Project%20enquiry">Contact</a>
-      <button id="themeToggle" class="icon-toggle" aria-label="Toggle dark/light theme" title="Toggle theme">
-        <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
-          <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
-        </svg>
-        <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-      </button>
-    </div>
-  </header>
 
-  <section class="header">
-    <p class="kicker">About</p>
-    <h1 class="title">We’re a small studio making singular web pieces.</h1>
+<header class="topbar" role="navigation" aria-label="Primary">
+  <a href="index.html" class="nav-logo" aria-label="Trove Digital Home">
+    <img src="trove_logo_only-removebg-preview.png" alt="Trove Digital Logo" />
+    <span class="nav-logo-text">Trove Digital</span>
+  </a>
+  <span class="mobile-brand">Trove Digital</span>
+  <div class="nav-right">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="work.html">Portfolio</a>
+    <a class="nav-link" href="services.html">Services</a>
+    <a class="nav-link" href="about.html" aria-current="page">About</a>
+    <a class="nav-link" href="blog/index.html">Blog</a>
+    <a class="nav-link" href="mailto:tom@trovedigital.com.au?subject=Project%20enquiry">Contact</a>
+    <button id="themeToggle" class="icon-toggle" aria-label="Toggle dark/light theme" title="Toggle theme">
+      <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+      </svg>
+      <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+  </div>
+  <button class="mobile-menu-toggle" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</header>
+
+<!-- Mobile drawer overlay -->
+<div class="mobile-overlay"></div>
+
+<!-- Mobile drawer menu -->
+<aside class="mobile-drawer">
+  <div class="mobile-drawer-header">
+    <h3>Menu</h3>
+    <button class="mobile-close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+  <nav class="mobile-nav-links">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="work.html">Portfolio</a>
+    <a class="nav-link" href="services.html">Services</a>
+    <a class="nav-link" href="about.html" aria-current="page">About</a>
+    <a class="nav-link" href="blog/index.html">Blog</a>
+    <a class="nav-link" href="mailto:tom@trovedigital.com.au?subject=Project%20enquiry">Contact</a>
+  </nav>
+  <div style="margin-top: auto; padding-top: 24px; border-top: 1px solid var(--hair);">
+    <button id="mobileThemeToggle" class="icon-toggle" style="width: 100%;" aria-label="Toggle dark/light theme" title="Toggle theme">
+      <svg id="mobile-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+      </svg>
+      <svg id="mobile-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+  </div>
+</aside>
+
+<div class="content-wrapper">
+  <!-- Hero -->
+  <section class="hero">
+    <h1>About Trove Digital</h1>
+    <p>
+      We're a small web studio that helps Australian businesses get online with websites that look good and work well. Based in Perth, we work with SMEs across the country.
+    </p>
+    <div class="hero-ctas">
+      <a href="mailto:tom@trovedigital.com.au?subject=Project%20enquiry" class="cta-primary">
+        Start a Project
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M13 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a href="work.html" class="cta-secondary">View Portfolio</a>
+    </div>
   </section>
 
-  <p class="lede">We started in a shed at home. The hunch: in the age of AI, sameness is cheap and everywhere—so taste, restraint and finish matter more. We work with SMEs and founders who want their site or internal tool to feel considered, load fast, and help them stand out.</p>
+  <!-- What we do -->
+  <section class="section" id="what-we-do">
+    <div class="section-header">
+      <h2>What we do</h2>
+    </div>
+    <div class="list-grid">
+      <div class="list-item">
+        <h3>Business Websites</h3>
+        <p>Custom websites for service businesses, tradespeople, consultants, and local companies who want to attract customers online.</p>
+      </div>
+      <div class="list-item">
+        <h3>E-commerce Stores</h3>
+        <p>Online stores with payment processing, product catalogues, and checkout systems so you can sell your products or services online.</p>
+      </div>
+      <div class="list-item">
+        <h3>Booking Systems</h3>
+        <p>Custom booking and scheduling tools so customers can book appointments, services, or rentals directly through your site.</p>
+      </div>
+      <div class="list-item">
+        <h3>Client Portals</h3>
+        <p>Secure login areas where your clients can view documents, track progress, or manage their account.</p>
+      </div>
+      <div class="list-item">
+        <h3>Quote Calculators</h3>
+        <p>Interactive tools that help customers get instant pricing based on their specific needs or requirements.</p>
+      </div>
+      <div class="list-item">
+        <h3>Existing Site Updates</h3>
+        <p>Already have a site that needs work? We can update, fix, or completely rebuild what you've got.</p>
+      </div>
+    </div>
 
-  <section class="section">
-    <div class="grid">
-      <div class="row">
-        <div class="label">What we do</div>
-        <div class="text">
-          Websites that don’t read like templates. Custom apps that teams actually use. Product strategy, UX and front-end engineering to get it shipped.
+    <!-- Humorous "Anything" Section -->
+    <div class="anything-section">
+      <div class="anything-content">
+        <h3>...or literally anything you can dream of</h3>
+        <p>Got a wild idea? A niche industry? A business so unique you're not even sure what to call it? Perfect. We love a challenge.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How we work -->
+  <section class="section" id="how-we-work">
+    <div class="section-header">
+      <h2>How we work</h2>
+    </div>
+    <div class="list-grid">
+      <div class="list-item">
+        <h3>We keep it simple</h3>
+        <p>No confusing jargon or complicated processes. We figure out what you need, give you a price, and get it done.</p>
+      </div>
+      <div class="list-item">
+        <h3>You stay in control</h3>
+        <p>We show you designs before building anything. You give feedback, we make changes, and nothing goes live until you're happy.</p>
+      </div>
+      <div class="list-item">
+        <h3>You talk to us directly</h3>
+        <p>When you call or email, you're speaking to the people actually building your site. No account managers or middlemen.</p>
+      </div>
+      <div class="list-item">
+        <h3>Fixed prices upfront</h3>
+        <p>We tell you what it'll cost before we start. No surprise bills or hidden fees.</p>
+      </div>
+      <div class="list-item">
+        <h3>Clear timelines</h3>
+        <p>We tell you how long it'll take and keep you updated throughout. Most standard sites are done within a week.</p>
+      </div>
+      <div class="list-item">
+        <h3>We're local</h3>
+        <p>Based in Perth, working Australian business hours. We understand the local market and can meet in person if needed.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why choose us -->
+  <section class="section" id="why-it-matters">
+    <div class="section-header">
+      <h2>Why choose us</h2>
+      <p>
+        Your website is often the first impression customers get of your business. We make sure it's a good one. Our sites look professional, load quickly, and make it easy for customers to contact you or buy from you. Most importantly, we're straightforward to work with—no BS, just good work delivered on time.
+      </p>
+    </div>
+  </section>
+
+  <!-- What matters to us -->
+  <section class="section" id="principles">
+    <div class="section-header">
+      <h2>What matters to us</h2>
+    </div>
+    <div class="principles-list">
+      <div class="principle-item">
+        <div class="principle-icon">🎨</div>
+        <p class="principle-text">Quality design that doesn't look generic</p>
+      </div>
+      <div class="principle-item">
+        <div class="principle-icon">✨</div>
+        <p class="principle-text">Clean, easy-to-use websites</p>
+      </div>
+      <div class="principle-item">
+        <div class="principle-icon">⚡</div>
+        <p class="principle-text">Fast loading times</p>
+      </div>
+      <div class="principle-item">
+        <div class="principle-icon">🤝</div>
+        <p class="principle-text">Building sites that work for your business</p>
+      </div>
+      <div class="principle-item">
+        <div class="principle-icon">💬</div>
+        <p class="principle-text">Clear communication and no tech jargon</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What we can help with -->
+  <section class="section" id="capabilities">
+    <div class="section-header">
+      <h2>What we can help with</h2>
+    </div>
+    <div class="capabilities-grid">
+      <div class="capability-item">
+        <h3>Website Design</h3>
+        <p>Custom designs that match your brand and appeal to your customers</p>
+      </div>
+      <div class="capability-item">
+        <h3>Website Development</h3>
+        <p>Building your site with modern, reliable technology that works on all devices</p>
+      </div>
+      <div class="capability-item">
+        <h3>Online Payments</h3>
+        <p>Setting up secure payment processing for products, services, or subscriptions</p>
+      </div>
+      <div class="capability-item">
+        <h3>Analytics & Tracking</h3>
+        <p>Understanding who visits your site and what they do (so you can improve)</p>
+      </div>
+      <div class="capability-item">
+        <h3>Hosting & Maintenance</h3>
+        <p>Keeping your site online, secure, and up to date after launch</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our approach -->
+  <section class="section" id="stack">
+    <div class="section-header">
+      <h2>Our approach</h2>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-item">
+        <h3>Modern Technology</h3>
+        <p>We use current, reliable web technology that's fast and secure</p>
+      </div>
+      <div class="stack-item">
+        <h3>Custom Built</h3>
+        <p>Every site is built specifically for you, not from a generic template</p>
+      </div>
+      <div class="stack-item">
+        <h3>Mobile First</h3>
+        <p>We design for phones and tablets first, since that's where most of your customers are</p>
+      </div>
+      <div class="stack-item">
+        <h3>Fast Loading</h3>
+        <p>Clean code means your site loads quickly, which keeps visitors on the page and helps with Google rankings</p>
+      </div>
+      <div class="stack-item">
+        <h3>Trusted Services</h3>
+        <p>We use industry-standard services like Stripe for payments and reliable email delivery</p>
+      </div>
+      <div class="stack-item">
+        <h3>Secure Hosting</h3>
+        <p>Your site is hosted on fast, secure servers with automatic backups and SSL certificates</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who we work with -->
+  <section class="section" id="who">
+    <div class="section-header">
+      <h2>Who we work with</h2>
+    </div>
+    <div class="list-grid">
+      <div class="list-item">
+        <h3>Local Businesses</h3>
+        <p>Tradespeople, consultants, service providers, and retailers who need a professional online presence.</p>
+      </div>
+      <div class="list-item">
+        <h3>Growing Companies</h3>
+        <p>Small to medium businesses ready to invest in a proper website that helps them grow.</p>
+      </div>
+      <div class="list-item">
+        <h3>People Who Value Honesty</h3>
+        <p>Business owners who want to work with someone straightforward, not a slick sales pitch.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What we've done -->
+  <section class="section" id="results">
+    <div class="section-header">
+      <h2>What we've done</h2>
+    </div>
+    <div class="results-list">
+      <div class="result-item">
+        <p>Helped local businesses get more enquiries through better, faster websites</p>
+      </div>
+      <div class="result-item">
+        <p>Set up online payment systems so businesses can take payments 24/7</p>
+      </div>
+      <div class="result-item">
+        <p>Rebuilt outdated websites that now work properly on phones and tablets</p>
+      </div>
+      <div class="result-item">
+        <p>Built and launched most standard websites within a week</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What clients say -->
+  <section class="section" id="testimonials">
+    <div class="section-header">
+      <h2>What clients say</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <p class="testimonial-quote">"Tom was easy to work with and delivered exactly what we needed. The site looks great and we've already had customers mention it."</p>
+        <p class="testimonial-author">Client Name, Role, Company</p>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-quote">"Straightforward, professional, and delivered on time. Would recommend."</p>
+        <p class="testimonial-author">Client Name, Role, Company</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section class="section" id="faqs">
+    <div class="section-header">
+      <h2>FAQs</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question-wrapper">
+          <h3 class="faq-question">Can you handle bigger projects?</h3>
+          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <div class="faq-answer-wrapper">
+          <p class="faq-answer">Yes. If you need something more complex, we break it into stages so you know exactly what you're getting and when. We'll give you an honest assessment upfront.</p>
         </div>
       </div>
-      <div class="row">
-        <div class="label">How we work</div>
-        <div class="text">Small scope, short feedback loops, honest edits. We prototype with real content and remove anything that doesn’t help the story. You speak to the people doing the work.</div>
+
+      <div class="faq-item">
+        <div class="faq-question-wrapper">
+          <h3 class="faq-question">What if I don't have content ready?</h3>
+          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <div class="faq-answer-wrapper">
+          <p class="faq-answer">We can help write website copy and source professional images. If you need in-depth copywriting or professional photography, we can arrange that too.</p>
+        </div>
       </div>
-      <div class="row">
-        <div class="label">Why it matters</div>
-        <div class="text">AI makes it easy to publish more. It also makes it easy to look the same. We help you be unmistakable—through typography, composition and movement that read as human.</div>
+
+      <div class="faq-item">
+        <div class="faq-question-wrapper">
+          <h3 class="faq-question">Do you provide ongoing support?</h3>
+          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <div class="faq-answer-wrapper">
+          <p class="faq-answer">Yes. We can host and maintain your site for you, or hand it over so you can manage it yourself. Either way works.</p>
+        </div>
       </div>
-      <a class="cta" href="mailto:tom@trovedigital.com?subject=Project%20enquiry">Contact us</a>
     </div>
   </section>
 
-  <footer>
-    <div>© Trove Digital — handcrafted on the web</div>
-    <nav>
-      <a href="index.html">Home</a> ·
-      <a href="services.html">Services</a> ·
-      <a href="blog/index.html">Blog</a> ·
-      <a href="mailto:tom@trovedigital.com">Email</a>
-    </nav>
-  </footer>
+  <!-- Contact -->
+  <section class="contact-section" id="contact">
+    <div class="contact-content">
+      <h2>Let's talk about your project</h2>
+      <p>Not sure if we're the right fit? Send us an email and we'll let you know honestly if we can help.</p>
+      <div class="contact-ctas">
+        <a href="mailto:tom@trovedigital.com.au?subject=Project%20enquiry" class="cta-primary">
+          Get in Touch
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="mailto:tom@trovedigital.com.au" class="cta-secondary">tom@trovedigital.com.au</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div>© Trove Digital — handcrafted on the web<br><small>ABN 74 690 833 357</small></div>
+  <nav>
+    <a href="index.html">Home</a> ·
+    <a href="work.html">Portfolio</a> ·
+    <a href="services.html">Services</a> ·
+    <a href="about.html">About</a> ·
+    <a href="blog/index.html">Blog</a> ·
+    <a href="mailto:tom@trovedigital.com.au">Email</a>
+  </nav>
+</footer>
 
 <script>
 (function(){
-  const root=document.documentElement,t=document.getElementById('themeToggle'),s=document.getElementById('icon-sun'),m=document.getElementById('icon-moon');
+  const root=document.documentElement,
+        t=document.getElementById('themeToggle'),
+        s=document.getElementById('icon-sun'),
+        m=document.getElementById('icon-moon');
+
   const saved=localStorage.getItem('trove-theme');
   const system=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
   const initial=saved||system;
   root.setAttribute('data-theme',initial);
   s.style.display=initial==='light'?'block':'none';
   m.style.display=initial==='light'?'none':'block';
+
   t.addEventListener('click',()=>{
     const next=root.getAttribute('data-theme')==='light'?'dark':'light';
     root.setAttribute('data-theme',next);
@@ -225,6 +1201,76 @@ footer{ padding:64px clamp(20px,6vw,80px); border-top:1px solid var(--hair); dis
     s.style.display=next==='light'?'block':'none';
     m.style.display=next==='light'?'none':'block';
   });
+})();
+
+// FAQ Accordion
+(function(){
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(item => {
+    const questionWrapper = item.querySelector('.faq-question-wrapper');
+    questionWrapper.addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+      // Close all other FAQs
+      faqItems.forEach(otherItem => {
+        otherItem.classList.remove('active');
+      });
+      // Toggle current FAQ
+      if (!isActive) {
+        item.classList.add('active');
+      }
+    });
+  });
+})();
+
+// Mobile drawer navigation
+(function(){
+  const menuToggle = document.querySelector('.mobile-menu-toggle');
+  const drawer = document.querySelector('.mobile-drawer');
+  const overlay = document.querySelector('.mobile-overlay');
+  const closeBtn = document.querySelector('.mobile-close');
+  const drawerLinks = document.querySelectorAll('.mobile-drawer .nav-link');
+
+  function openDrawer() {
+    drawer.classList.add('active');
+    overlay.classList.add('active');
+    menuToggle.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove('active');
+    overlay.classList.remove('active');
+    menuToggle.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  menuToggle.addEventListener('click', openDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+
+  drawerLinks.forEach(link => {
+    link.addEventListener('click', closeDrawer);
+  });
+
+  // Mobile theme toggle
+  const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+  const mobileSun = document.getElementById('mobile-icon-sun');
+  const mobileMoon = document.getElementById('mobile-icon-moon');
+
+  mobileThemeToggle.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('trove-theme', next);
+    s.style.display = next === 'light' ? 'block' : 'none';
+    m.style.display = next === 'light' ? 'none' : 'block';
+    mobileSun.style.display = next === 'light' ? 'block' : 'none';
+    mobileMoon.style.display = next === 'light' ? 'none' : 'block';
+  });
+
+  // Sync mobile theme toggle icons with initial theme
+  const currentTheme = root.getAttribute('data-theme');
+  mobileSun.style.display = currentTheme === 'light' ? 'block' : 'none';
+  mobileMoon.style.display = currentTheme === 'light' ? 'none' : 'block';
 })();
 </script>
 </body>
