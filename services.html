@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8" />
 <script>
 // Apply theme immediately to prevent flash
 (function(){
   const saved = localStorage.getItem('trove-theme');
-  const system = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  const system = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   const theme = saved || system;
   document.documentElement.setAttribute('data-theme', theme);
 })();
@@ -385,39 +385,567 @@ body::before {
   margin-right: auto;
 }
 
-/* List grid */
-.list-grid {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 32px;
+/* Service Tiers Section */
+.tiers-section {
+  padding: clamp(80px,14vw,160px) clamp(20px,6vw,80px);
+  border-top: 1px solid var(--hair);
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
 }
-.list-item {
+.tiers-header {
+  text-align: center;
+  margin-bottom: clamp(56px,10vw,96px);
+}
+.tiers-header h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(38px,7.5vw,68px);
+  line-height: 1;
+  margin: 0 0 20px 0;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.tiers-header p {
+  color: var(--muted);
+  font-size: clamp(17px,2.2vw,21px);
+  margin: 0;
+  max-width: 68ch;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.4;
+}
+
+.tiers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(32px,5vw,48px);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.tier-card {
   background: var(--panel);
   border: 1.5px solid var(--hair);
-  border-radius: 16px;
-  padding: clamp(28px,4vw,40px);
+  border-radius: 20px;
+  padding: clamp(32px,5vw,48px);
   transition: transform .2s, border-color .2s, box-shadow .2s;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto auto auto auto 1fr auto;
+  align-items: start;
 }
-.list-item:hover {
-  transform: translateY(-4px);
+.tier-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-warm));
+  opacity: 0;
+  transition: opacity .2s;
+}
+.tier-card:hover {
+  transform: translateY(-6px);
   border-color: var(--accent);
-  box-shadow: 0 20px 40px rgba(0,0,0,.3);
+  box-shadow: 0 20px 48px rgba(var(--bg-rgb), 0.4), 0 0 0 1px var(--accent);
 }
-.list-item h3 {
+.tier-card:hover::before {
+  opacity: 1;
+}
+
+.tier-card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(26px,4vw,36px);
+  margin: 0 0 12px 0;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.tier-price {
+  font-size: clamp(20px,3vw,28px);
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 8px 0;
+  font-family: 'Space Grotesk', sans-serif;
+}
+.tier-timeline {
+  font-size: clamp(13px,1.8vw,15px);
+  color: var(--muted);
+  margin: 0 0 20px 0;
+  font-style: italic;
+}
+.tier-description {
+  font-size: clamp(15px,2vw,17px);
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0 0 24px 0;
+}
+.tier-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px 0;
+}
+.tier-features li {
+  font-size: clamp(14px,2vw,16px);
+  line-height: 1.6;
+  margin-bottom: 12px;
+  padding-left: 28px;
+  position: relative;
+  color: var(--fg-soft);
+}
+.tier-features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 18px;
+}
+.tier-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px 28px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: clamp(14px,2vw,16px);
+  transition: transform .15s, box-shadow .15s;
+  box-shadow: 0 6px 20px rgba(125,110,255,.3);
+}
+.tier-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(125,110,255,.45);
+}
+
+@media (max-width: 768px) {
+  .tiers-grid {
+    grid-template-columns: 1fr;
+  }
+  .tier-card {
+    padding: 28px 24px;
+  }
+  .tiers-section {
+    padding: 60px 20px !important;
+  }
+}
+
+/* Process Timeline Section */
+.process-section {
+  padding: clamp(80px,14vw,140px) clamp(20px,6vw,80px);
+  border-top: 1px solid var(--hair);
+  background: var(--bg);
+  position: relative;
+  z-index: 1;
+}
+.process-header {
+  text-align: center;
+  margin-bottom: clamp(64px,12vw,96px);
+}
+.process-header h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(38px,7.5vw,68px);
+  line-height: 1;
+  margin: 0 0 20px 0;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.process-header p {
+  color: var(--muted);
+  font-size: clamp(17px,2.2vw,21px);
+  margin: 0;
+  max-width: 64ch;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.4;
+}
+.process-timeline {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+.process-timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-2) 100%);
+  opacity: 0.3;
+}
+.process-step {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: clamp(32px,5vw,56px);
+  margin-bottom: clamp(48px,8vw,72px);
+  align-items: center;
+}
+.process-step:last-child {
+  margin-bottom: 0;
+}
+.step-content-left,
+.step-content-right {
+  background: var(--panel);
+  border: 1px solid var(--hair);
+  border-radius: 16px;
+  padding: clamp(24px,4vw,32px);
+  transition: border-color .2s, box-shadow .2s;
+}
+.step-content-left:hover,
+.step-content-right:hover {
+  border-color: var(--accent);
+  box-shadow: 0 12px 32px rgba(0,0,0,.15);
+}
+.step-number-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+.step-number {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: grid;
+  place-items: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(125,110,255,.4);
+}
+.step-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(20px,3vw,26px);
+  margin: 0 0 12px 0;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.step-description {
+  color: var(--muted);
+  font-size: clamp(15px,2vw,17px);
+  line-height: 1.5;
+  margin: 0;
+}
+.step-empty {
+  /* Empty grid cell for alternating layout */
+}
+
+@media (max-width: 768px) {
+  .process-section {
+    padding: 60px 20px !important;
+  }
+  .process-timeline {
+    padding: 0;
+    max-width: 100%;
+  }
+  .process-timeline::before {
+    display: none;
+  }
+  .process-step {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .step-content-left,
+  .step-content-right {
+    padding: 24px 20px;
+  }
+  .step-number-wrapper {
+    order: -1;
+    margin-bottom: 16px;
+  }
+  .step-number {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+  .step-title {
+    font-size: 20px !important;
+    margin-bottom: 8px;
+  }
+  .step-description {
+    font-size: 15px !important;
+    line-height: 1.6;
+  }
+}
+
+/* Comparison Table Section */
+.comparison-section {
+  padding: clamp(80px,14vw,140px) clamp(20px,6vw,80px);
+  border-top: 1px solid var(--hair);
+  background: var(--bg);
+  position: relative;
+  z-index: 1;
+}
+.comparison-header {
+  text-align: center;
+  margin-bottom: clamp(56px,10vw,80px);
+}
+.comparison-header h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(38px,7.5vw,68px);
+  line-height: 1;
+  margin: 0 0 20px 0;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.comparison-header p {
+  color: var(--muted);
+  font-size: clamp(17px,2.2vw,20px);
+  margin: 0;
+  line-height: 1.4;
+}
+.comparison-table-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.comparison-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--panel);
+  border: 1px solid var(--hair);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.comparison-table thead {
+  background: var(--accent);
+  color: #fff;
+}
+.comparison-table th {
+  padding: 20px 24px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(16px,2.5vw,20px);
+  font-weight: 700;
+  text-align: left;
+  border-bottom: 1px solid var(--hair);
+}
+.comparison-table th:first-child {
+  width: 30%;
+}
+.comparison-table td {
+  padding: 18px 24px;
+  font-size: clamp(14px,2vw,16px);
+  border-bottom: 1px solid var(--hair);
+  vertical-align: middle;
+}
+.comparison-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.comparison-table tbody tr {
+  transition: background 0.15s;
+}
+.comparison-table tbody tr:hover {
+  background: rgba(125,110,255,.05);
+}
+.comparison-table td:first-child {
+  font-weight: 600;
+  color: var(--fg);
+}
+.comparison-table td:not(:first-child) {
+  text-align: center;
+  color: var(--muted);
+}
+.check-icon {
+  color: var(--accent);
+  font-size: 20px;
+  font-weight: 800;
+}
+.cross-icon {
+  color: var(--muted);
+  font-size: 18px;
+  opacity: 0.4;
+}
+
+@media (max-width: 768px) {
+  .comparison-table-wrapper {
+    overflow-x: visible;
+  }
+  .comparison-table {
+    display: none;
+  }
+  .comparison-section {
+    padding: 60px 20px !important;
+  }
+  .comparison-section::after {
+    content: '';
+    display: block;
+  }
+}
+
+/* Mobile comparison cards - hidden by default */
+.comparison-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .comparison-mobile {
+    display: block;
+  }
+  .comparison-mobile-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 100%;
+  }
+  .comparison-mobile-card {
+    background: var(--panel);
+    border: 1px solid var(--hair);
+    border-radius: 12px;
+    padding: 24px 20px;
+  }
+  .comparison-mobile-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 16px 0;
+    color: var(--accent);
+  }
+  .comparison-mobile-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--hair);
+  }
+  .comparison-mobile-row:last-child {
+    border-bottom: none;
+  }
+  .comparison-mobile-label {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--fg);
+  }
+  .comparison-mobile-value {
+    font-size: 14px;
+    color: var(--muted);
+    text-align: right;
+  }
+  .comparison-mobile-value .check-icon {
+    font-size: 18px;
+    color: var(--accent);
+  }
+  .comparison-mobile-value .cross-icon {
+    font-size: 16px;
+    color: var(--muted);
+    opacity: 0.4;
+  }
+}
+
+/* FAQ Section */
+.faq-section {
+  padding: clamp(80px,14vw,140px) clamp(20px,6vw,80px);
+  border-top: 1px solid var(--hair);
+  background: var(--bg);
+  position: relative;
+  z-index: 1;
+}
+.faq-header {
+  text-align: center;
+  margin-bottom: clamp(56px,10vw,80px);
+}
+.faq-header h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(38px,7.5vw,68px);
+  line-height: 1;
+  margin: 0 0 20px 0;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.faq-header p {
+  color: var(--muted);
+  font-size: clamp(17px,2.2vw,20px);
+  margin: 0;
+  line-height: 1.4;
+}
+.faq-list {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.faq-item {
+  margin-bottom: 16px;
+  background: var(--panel);
+  border: 1px solid var(--hair);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.faq-item:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(0,0,0,.1);
+}
+.faq-item.active {
+  border-color: var(--accent);
+}
+.faq-question-wrapper {
+  padding: 24px 28px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  user-select: none;
+}
+.faq-question {
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(18px,2.5vw,22px);
-  margin: 0 0 12px 0;
-  font-weight: 600;
-  line-height: 1.2;
-  color: var(--accent);
+  font-weight: 700;
+  margin: 0;
+  color: var(--fg);
+  letter-spacing: -0.01em;
+  flex: 1;
 }
-.list-item p {
+.faq-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: var(--accent);
+  transition: transform 0.3s ease;
+}
+.faq-item.active .faq-icon {
+  transform: rotate(180deg);
+}
+.faq-answer-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+.faq-item.active .faq-answer-wrapper {
+  max-height: 500px;
+  padding: 0 28px 24px 28px;
+}
+.faq-answer {
   color: var(--muted);
-  font-size: 16px;
+  font-size: clamp(15px,2vw,17px);
   line-height: 1.6;
   margin: 0;
+}
+
+@media (max-width: 768px) {
+  .faq-section {
+    padding: 60px 20px !important;
+  }
+  .faq-question-wrapper {
+    padding: 20px;
+  }
+  .faq-item.active .faq-answer-wrapper {
+    padding: 0 20px 20px 20px;
+  }
 }
 
 /* Footer */
@@ -443,9 +971,6 @@ footer{
   .cta-secondary {
     width: 100%;
     justify-content: center;
-  }
-  .list-grid {
-    grid-template-columns: 1fr;
   }
   footer {
     padding:56px clamp(20px,5vw,40px);
@@ -529,7 +1054,7 @@ footer{
   <section class="hero">
     <h1>Services</h1>
     <p>
-      Custom websites and web apps for Australian SMEs. From one-off projects to ongoing partnerships.
+      Choose your fit. Whether you need a one-off custom site or ongoing partnership, we've got options that work for ambitious SMEs.
     </p>
     <div class="hero-ctas">
       <a href="mailto:tom@trovedigital.com.au?subject=Project%20enquiry" class="cta-primary">
@@ -542,60 +1067,352 @@ footer{
     </div>
   </section>
 
-  <!-- What we build -->
-  <section class="section">
-    <div class="section-header">
-      <h2>What we build</h2>
+  <!-- Service Tiers -->
+  <section class="tiers-section" aria-label="Our services">
+    <div class="tiers-header">
+      <h2>Choose your fit</h2>
+      <p>Whether you need a one-off custom site or ongoing partnership, we've got options that work for ambitious SMEs.</p>
     </div>
-    <div class="list-grid">
-      <div class="list-item">
-        <h3>Marketing Websites</h3>
-        <p>Custom sites built to convert visitors into customers. Fast, beautiful, and built to rank.</p>
+    <div class="tiers-grid">
+      <!-- One-Off Custom -->
+      <div class="tier-card">
+        <h3>One-Off Custom</h3>
+        <div class="tier-price">From $2,000</div>
+        <div class="tier-timeline">Delivered in ~7 business days*</div>
+        <p class="tier-description">
+          A fully custom website built from scratch. No templates, no generic design. Just a site that actually looks good and feels like you.
+        </p>
+        <ul class="tier-features">
+          <li>Custom design & UX tailored to your brand</li>
+          <li>Mobile-responsive, fast loading</li>
+          <li>SEO-ready setup</li>
+          <li>100% yours—no recurring fees</li>
+          <li>Handcrafted code, not WordPress</li>
+        </ul>
+        <a href="mailto:tom@trovedigital.com.au?subject=One-Off%20Custom%20Website%20Enquiry" class="tier-cta">Get a quote</a>
       </div>
-      <div class="list-item">
-        <h3>E-commerce Stores</h3>
-        <p>Online stores with payment processing, inventory management, and everything you need to sell online.</p>
+
+      <!-- Monthly Website -->
+      <div class="tier-card">
+        <h3>Monthly Website</h3>
+        <div class="tier-price">$100/month</div>
+        <div class="tier-timeline">We build it, you keep it as long as you pay</div>
+        <p class="tier-description">
+          We design and build your custom site, host it, and maintain it. Cancel anytime and the site comes down. Simple.
+        </p>
+        <ul class="tier-features">
+          <li>Custom-built website (not a template)</li>
+          <li>Hosting & maintenance included</li>
+          <li>Monthly updates & tweaks</li>
+          <li>Cancel anytime (site goes offline)</li>
+          <li>Perfect for startups testing the waters</li>
+        </ul>
+        <a href="mailto:tom@trovedigital.com.au?subject=Monthly%20Website%20Enquiry" class="tier-cta">Start monthly plan</a>
       </div>
-      <div class="list-item">
-        <h3>Web Applications</h3>
-        <p>Custom tools and internal systems built specifically for your business needs.</p>
+
+      <!-- Hosting Only -->
+      <div class="tier-card">
+        <h3>Hosting Support</h3>
+        <div class="tier-price">$100/month</div>
+        <div class="tier-timeline">For existing Trove sites</div>
+        <p class="tier-description">
+          Already have a site we built? Keep it live, fast, and maintained with our hosting package.
+        </p>
+        <ul class="tier-features">
+          <li>Fast, reliable hosting</li>
+          <li>Security updates & monitoring</li>
+          <li>Minor content updates included</li>
+          <li>Email support</li>
+          <li>Backups & uptime monitoring</li>
+        </ul>
+        <a href="mailto:tom@trovedigital.com.au?subject=Hosting%20Enquiry" class="tier-cta">Add hosting</a>
       </div>
-      <div class="list-item">
-        <h3>Client Portals</h3>
-        <p>Secure login areas where your clients can access documents, track orders, or manage their accounts.</p>
+    </div>
+    <p style="text-align:center; color:var(--muted); font-size:14px; margin-top:48px;">
+      *Timeline depends on project scope and your responsiveness. Most projects wrap in ~7 business days after kickoff.
+    </p>
+  </section>
+
+  <!-- Process Timeline Section -->
+  <section class="process-section" aria-label="How it works">
+    <div class="process-header">
+      <h2>How it works</h2>
+      <p>A simple, fast process. No confusion, no delays—just a clear path from start to finish.</p>
+    </div>
+    <div class="process-timeline">
+      <!-- Step 1 -->
+      <div class="process-step">
+        <div class="step-content-left">
+          <h3 class="step-title">Kickoff Call</h3>
+          <p class="step-description">We understand your business, goals, and what success looks like for you.</p>
+        </div>
+        <div class="step-number-wrapper">
+          <div class="step-number">1</div>
+        </div>
+        <div class="step-empty"></div>
       </div>
-      <div class="list-item">
-        <h3>Booking Systems</h3>
-        <p>Let customers book appointments, services, or rentals directly through your website.</p>
+
+      <!-- Step 2 -->
+      <div class="process-step">
+        <div class="step-empty"></div>
+        <div class="step-number-wrapper">
+          <div class="step-number">2</div>
+        </div>
+        <div class="step-content-right">
+          <h3 class="step-title">Design Mockups</h3>
+          <p class="step-description">We create visual mockups of your site. You review, provide feedback, and approve before we build.</p>
+        </div>
       </div>
-      <div class="list-item">
-        <h3>Website Redesigns</h3>
-        <p>Already have a site? We'll rebuild it with modern design and better performance.</p>
+
+      <!-- Step 3 -->
+      <div class="process-step">
+        <div class="step-content-left">
+          <h3 class="step-title">Development</h3>
+          <p class="step-description">We build your site with clean, fast code. You get regular updates along the way.</p>
+        </div>
+        <div class="step-number-wrapper">
+          <div class="step-number">3</div>
+        </div>
+        <div class="step-empty"></div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="process-step">
+        <div class="step-empty"></div>
+        <div class="step-number-wrapper">
+          <div class="step-number">4</div>
+        </div>
+        <div class="step-content-right">
+          <h3 class="step-title">Review & Revisions</h3>
+          <p class="step-description">You test everything. We fix any issues and make final tweaks until it's perfect.</p>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="process-step">
+        <div class="step-content-left">
+          <h3 class="step-title">Launch</h3>
+          <p class="step-description">Your site goes live. We provide documentation, training, and ongoing support if needed.</p>
+        </div>
+        <div class="step-number-wrapper">
+          <div class="step-number">5</div>
+        </div>
+        <div class="step-empty"></div>
       </div>
     </div>
   </section>
 
-  <!-- How we work -->
-  <section class="section">
-    <div class="section-header">
-      <h2>How we work</h2>
+  <!-- Comparison Table Section -->
+  <section class="comparison-section" aria-label="Pricing comparison">
+    <div class="comparison-header">
+      <h2>Compare options</h2>
+      <p>See exactly what's included in each option—no fine print, no surprises.</p>
     </div>
-    <div class="list-grid">
-      <div class="list-item">
-        <h3>Discovery Call</h3>
-        <p>We chat about your business, your goals, and what you need from your website.</p>
+    <div class="comparison-table-wrapper">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>One-Off Custom</th>
+            <th>Monthly Website</th>
+            <th>Hosting & Support</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Custom Design</td>
+            <td><span class="check-icon">✓</span></td>
+            <td><span class="check-icon">✓</span></td>
+            <td><span class="cross-icon">–</span></td>
+          </tr>
+          <tr>
+            <td>Delivery Time</td>
+            <td>~7 days</td>
+            <td>~7 days</td>
+            <td><span class="cross-icon">–</span></td>
+          </tr>
+          <tr>
+            <td>Ongoing Cost</td>
+            <td>None</td>
+            <td>$100/month</td>
+            <td>$100/month</td>
+          </tr>
+          <tr>
+            <td>Hosting Included</td>
+            <td><span class="cross-icon">–</span></td>
+            <td><span class="check-icon">✓</span></td>
+            <td><span class="check-icon">✓</span></td>
+          </tr>
+          <tr>
+            <td>Own the Site</td>
+            <td><span class="check-icon">✓</span></td>
+            <td><span class="cross-icon">✗</span></td>
+            <td><span class="check-icon">✓</span> (past builds)</td>
+          </tr>
+          <tr>
+            <td>Maintenance</td>
+            <td><span class="cross-icon">–</span></td>
+            <td><span class="check-icon">✓</span></td>
+            <td><span class="check-icon">✓</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mobile Comparison Cards -->
+    <div class="comparison-mobile">
+      <div class="comparison-mobile-grid">
+        <!-- One-Off Custom Card -->
+        <div class="comparison-mobile-card">
+          <h3>One-Off Custom</h3>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Custom Design</span>
+            <span class="comparison-mobile-value"><span class="check-icon">✓</span></span>
+          </div>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Delivery Time</span>
+            <span class="comparison-mobile-value">~7 days</span>
+          </div>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Ongoing Cost</span>
+            <span class="comparison-mobile-value">None</span>
+          </div>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Hosting Included</span>
+            <span class="comparison-mobile-value"><span class="cross-icon">–</span></span>
+          </div>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Own the Site</span>
+            <span class="comparison-mobile-value"><span class="check-icon">✓</span></span>
+          </div>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Maintenance</span>
+            <span class="comparison-mobile-value"><span class="cross-icon">–</span></span>
+          </div>
+        </div>
+
+        <!-- Monthly Website Card -->
+        <div class="comparison-mobile-card">
+          <h3>Monthly Website</h3>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Custom Design</span>
+            <span class="comparison-mobile-value"><span class="check-icon">✓</span></span>
+          </div>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Delivery Time</span>
+            <span class="comparison-mobile-value">~7 days</span>
+          </div>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Ongoing Cost</span>
+            <span class="comparison-mobile-value">$100/month</span>
+          </div>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Hosting Included</span>
+            <span class="comparison-mobile-value"><span class="check-icon">✓</span></span>
+          </div>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Own the Site</span>
+            <span class="comparison-mobile-value"><span class="cross-icon">✗</span></span>
+          </div>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Maintenance</span>
+            <span class="comparison-mobile-value"><span class="check-icon">✓</span></span>
+          </div>
+        </div>
+
+        <!-- Hosting & Support Card -->
+        <div class="comparison-mobile-card">
+          <h3>Hosting & Support</h3>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Custom Design</span>
+            <span class="comparison-mobile-value"><span class="cross-icon">–</span></span>
+          </div>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Delivery Time</span>
+            <span class="comparison-mobile-value"><span class="cross-icon">–</span></span>
+          </div>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Ongoing Cost</span>
+            <span class="comparison-mobile-value">$100/month</span>
+          </div>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Hosting Included</span>
+            <span class="comparison-mobile-value"><span class="check-icon">✓</span></span>
+          </div>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Own the Site</span>
+            <span class="comparison-mobile-value"><span class="check-icon">✓</span> (past builds)</span>
+          </div>
+          <div class="comparison-mobile-row">
+            <span class="comparison-mobile-label">Maintenance</span>
+            <span class="comparison-mobile-value"><span class="check-icon">✓</span></span>
+          </div>
+        </div>
       </div>
-      <div class="list-item">
-        <h3>Quote & Timeline</h3>
-        <p>You get a fixed price quote and clear timeline before we start any work.</p>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section" aria-label="Frequently asked questions">
+    <div class="faq-header">
+      <h2>Common questions</h2>
+      <p>Everything you need to know before getting started.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question-wrapper">
+          <h3 class="faq-question">Do I own the site?</h3>
+          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <div class="faq-answer-wrapper">
+          <p class="faq-answer">Yes, if you choose the One-Off Custom option. You own all the code, assets, and design—forever. For the Monthly Website plan, the site stays live while you're subscribed. If you cancel, we can arrange a buyout.</p>
+        </div>
       </div>
-      <div class="list-item">
-        <h3>Design & Build</h3>
-        <p>We design your site, get your approval, then build it. You see progress throughout.</p>
+      <div class="faq-item">
+        <div class="faq-question-wrapper">
+          <h3 class="faq-question">What if I don't like the design?</h3>
+          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <div class="faq-answer-wrapper">
+          <p class="faq-answer">We nail the design direction upfront with mockups before building anything. You'll approve the design before we write a single line of code. If changes are needed, we iterate quickly until you're happy.</p>
+        </div>
       </div>
-      <div class="list-item">
-        <h3>Launch & Support</h3>
-        <p>We launch your site and provide training. Ongoing support available if you need it.</p>
+      <div class="faq-item">
+        <div class="faq-question-wrapper">
+          <h3 class="faq-question">Can I request changes after delivery?</h3>
+          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <div class="faq-answer-wrapper">
+          <p class="faq-answer">Absolutely. Minor tweaks are usually included in the first week after delivery. For bigger changes, we can discuss scope and pricing—or you can add ongoing support if you need regular updates.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question-wrapper">
+          <h3 class="faq-question">Do you write copy?</h3>
+          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <div class="faq-answer-wrapper">
+          <p class="faq-answer">We can help refine and structure your copy to make it clearer and more compelling. If you need full copywriting from scratch, we can recommend trusted partners or discuss adding it to your project.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question-wrapper">
+          <h3 class="faq-question">What happens if I cancel the monthly plan?</h3>
+          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <div class="faq-answer-wrapper">
+          <p class="faq-answer">Your site comes offline. Simple as that. No lock-ins, no penalties. If you want to keep the site live, we can discuss a buyout price to transfer full ownership to you.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -689,6 +1506,25 @@ const root=document.documentElement, s=document.getElementById('icon-sun'), m=do
   const currentTheme = root.getAttribute('data-theme');
   mobileSun.style.display = currentTheme === 'light' ? 'block' : 'none';
   mobileMoon.style.display = currentTheme === 'light' ? 'none' : 'block';
+})();
+
+// FAQ Accordion
+(function(){
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(item => {
+    const questionWrapper = item.querySelector('.faq-question-wrapper');
+    questionWrapper.addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+      // Close all other FAQs
+      faqItems.forEach(otherItem => {
+        otherItem.classList.remove('active');
+      });
+      // Toggle current FAQ
+      if (!isActive) {
+        item.classList.add('active');
+      }
+    });
+  });
 })();
 </script>
 </body>
