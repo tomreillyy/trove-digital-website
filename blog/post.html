@@ -464,23 +464,31 @@ body::before {
         m=document.getElementById('icon-moon');
 
   const saved=localStorage.getItem('trove-theme');
-  const system=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+  const system=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
   const initial=saved||system;
   root.setAttribute('data-theme',initial);
   s.style.display=initial==='light'?'block':'none';
   m.style.display=initial==='light'?'none':'block';
 
-  t.addEventListener('click',()=>{
+  function toggleTheme() {
     const next=root.getAttribute('data-theme')==='light'?'dark':'light';
     root.setAttribute('data-theme',next);
     localStorage.setItem('trove-theme',next);
     s.style.display=next==='light'?'block':'none';
     m.style.display=next==='light'?'none':'block';
-  });
-})();
 
-// Mobile drawer navigation
-(function(){
+    // Also update mobile icons
+    const mobileSun = document.getElementById('mobile-icon-sun');
+    const mobileMoon = document.getElementById('mobile-icon-moon');
+    if (mobileSun && mobileMoon) {
+      mobileSun.style.display = next === 'light' ? 'block' : 'none';
+      mobileMoon.style.display = next === 'light' ? 'none' : 'block';
+    }
+  }
+
+  t.addEventListener('click', toggleTheme);
+
+  // Mobile drawer navigation
   const menuToggle = document.querySelector('.mobile-menu-toggle');
   const drawer = document.querySelector('.mobile-drawer');
   const overlay = document.querySelector('.mobile-overlay');
@@ -514,20 +522,12 @@ body::before {
   const mobileSun = document.getElementById('mobile-icon-sun');
   const mobileMoon = document.getElementById('mobile-icon-moon');
 
-  mobileThemeToggle.addEventListener('click', () => {
-    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-    root.setAttribute('data-theme', next);
-    localStorage.setItem('trove-theme', next);
-    s.style.display = next === 'light' ? 'block' : 'none';
-    m.style.display = next === 'light' ? 'none' : 'block';
-    mobileSun.style.display = next === 'light' ? 'block' : 'none';
-    mobileMoon.style.display = next === 'light' ? 'none' : 'block';
-  });
-
-  // Sync mobile theme toggle icons with initial theme
-  const currentTheme = root.getAttribute('data-theme');
-  mobileSun.style.display = currentTheme === 'light' ? 'block' : 'none';
-  mobileMoon.style.display = currentTheme === 'light' ? 'none' : 'block';
+  if (mobileThemeToggle) {
+    mobileThemeToggle.addEventListener('click', toggleTheme);
+    // Sync mobile theme toggle icons with initial theme
+    mobileSun.style.display = initial === 'light' ? 'block' : 'none';
+    mobileMoon.style.display = initial === 'light' ? 'none' : 'block';
+  }
 })();
 
 // Format date to Australian format (DD/MM/YYYY)
