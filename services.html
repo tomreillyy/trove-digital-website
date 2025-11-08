@@ -1,176 +1,426 @@
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="utf-8" />
+  <meta charset="utf-8" />
+<script>
+// Apply theme immediately to prevent flash
+(function(){
+  const saved = localStorage.getItem('trove-theme');
+  const system = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  const theme = saved || system;
+  document.documentElement.setAttribute('data-theme', theme);
+})();
+</script>
 <title>Services — Trove Digital | Custom Websites & Web Apps</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <!-- SEO Meta Tags -->
-<meta name="description" content="We design and build bespoke websites and custom web apps for ambitious SMEs. Fast, intentional and unmistakably human. Custom marketing sites, internal tools, and ongoing partnerships." />
-<meta name="keywords" content="custom websites, web app development, SME web services, bespoke web design, internal tools, marketing sites" />
-<meta name="author" content="Trove Digital" />
-<meta name="robots" content="index, follow" />
-<link rel="canonical" href="https://trovedigital.com/services.html" />
+<meta name="description" content="Custom websites and web apps for Australian SMEs. From one-off projects to ongoing partnerships, we build digital products that work." />
 
-<!-- Open Graph Meta Tags -->
-<meta property="og:title" content="Services — Trove Digital | Custom Websites & Web Apps" />
-<meta property="og:description" content="We design and build bespoke websites and custom web apps for ambitious SMEs. Fast, intentional and unmistakably human." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://trovedigital.com/services.html" />
-<meta property="og:site_name" content="Trove Digital" />
-
-<!-- Twitter Card Meta Tags -->
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Services — Trove Digital | Custom Websites & Web Apps" />
-<meta name="twitter:description" content="We design and build bespoke websites and custom web apps for ambitious SMEs. Fast, intentional and unmistakably human." />
-
-<!-- Additional SEO -->
-<meta name="theme-color" content="#ff6b8a" />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
 <!-- Favicon -->
 <link rel="icon" type="image/png" href="trove_logo_only-removebg-preview.png" />
 <link rel="apple-touch-icon" href="trove_logo_only-removebg-preview.png" />
+
 <style>
-:root{
-  --bg:#0a0a0c; --fg:#fff; --muted:#c9cbd3; --hair:#ffffff26; --accent:#ff6b8a;
+:root {
+  /* Vibrant color system */
+  --bg:#0a0a0c; --fg:#ffffff; --fg-soft:#f5f6f8; --muted:#c9cbd3;
+  --panel:#101015; --hair:#ffffff26;
+  --accent:#7d6eff; --accent-2:#ff7394; --accent-warm:#ff6b5e;
+  --block:28px;
+  --bg-rgb:10, 10, 12;
+
+  /* CTA colors */
+  --cta-fg:#ffffff;
+  --cta-bg:#7d6eff;
+  --cta-shadow:0 8px 24px rgba(125,110,255,.4);
+
+  --headline-shadow:0 0 26px rgba(140,120,255,.30);
+  --hero-gradient: linear-gradient(135deg, rgba(125,110,255,.12) 0%, rgba(255,115,148,.12) 50%, rgba(255,107,94,.12) 100%);
 }
 html[data-theme="light"]{
-  --bg:#ffffff; --fg:#0b0e14; --muted:#2d313c; --hair:#00000022; --accent:#ff6b8a;
+  --bg:#ffffff; --fg:#0b0e14; --fg-soft:#111318; --muted:#2d313c;
+  --panel:#ffffff; --hair:#00000022;
+  --accent:#5d69ff; --accent-2:#ff6f92; --accent-warm:#ff6952;
+  --bg-rgb:255, 255, 255;
+  --topbar-bg:rgba(255,255,255,.85);
+
+  --cta-fg:#ffffff;
+  --cta-bg:#5d69ff;
+  --cta-shadow:0 6px 20px rgba(93,105,255,.35);
+
+  --headline-shadow:none;
+  --hero-gradient: linear-gradient(135deg, rgba(93,105,255,.08) 0%, rgba(255,111,146,.08) 50%, rgba(255,105,82,.08) 100%);
+}
+html[data-theme="light"] .topbar{
+  background:var(--topbar-bg);
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--fg)}
-body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5}
-a{color:inherit;text-decoration:none}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--fg)}
+body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow-x:hidden;transition:background .2s,color .2s}
+a{color:inherit}
+:focus-visible{ outline:2px solid color-mix(in oklab, var(--accent) 70%, transparent); outline-offset:3px; border-radius:6px }
 
+/* Animated gradient background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--hero-gradient);
+  animation: gradientShift 8s ease-in-out infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+@keyframes gradientShift {
+  0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  50% { opacity: 0.8; transform: scale(1.05) rotate(2deg); }
+}
+
+/* Top bar */
 .topbar{
-  position:fixed;top:16px;right:16px;left:16px;z-index:3;
-  display:flex;align-items:center;justify-content:space-between;gap:18px
+  position:fixed; top:0; right:0; left:0; z-index:3;
+  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  background:rgba(10,10,12,.85);
+  border-bottom:1px solid var(--hair);
+  padding:16px clamp(20px,4vw,40px);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  box-shadow:0 2px 12px rgba(0,0,0,.08);
+  transition:padding .2s, box-shadow .2s;
 }
-.nav-logo{display:flex;align-items:center;}
+.nav-logo{display:flex; align-items:center; text-decoration:none;}
 .nav-logo img{
-  height:40px;width:auto;
-  transition:transform .3s ease, filter .3s ease;
-  animation:logoFloat 4s ease-in-out infinite;
+  height:56px; width:auto;
+  transition:transform .2s ease, filter .2s ease;
+  animation:logoFloat 3s ease-in-out infinite;
 }
-.nav-logo:hover img{transform:scale(1.1) rotate(2deg); filter:brightness(1.1);}
+.nav-logo:hover img{transform:scale(1.12) rotate(3deg); filter:brightness(1.15);}
 
 @keyframes logoFloat {
   0%, 100% { transform:translateY(0px) rotate(0deg); }
-  50% { transform:translateY(-2px) rotate(1deg); }
+  50% { transform:translateY(-3px) rotate(1.5deg); }
 }
-.nav-right{display:flex;align-items:center;gap:18px}
+.nav-logo-text {
+  margin-left: 12px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+}
+
+.mobile-brand {
+  display: none;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+}
+.nav-right{display:flex; align-items:center; gap:24px}
 .nav-link{
-  text-decoration:underline;color:var(--fg);
-  font-weight:600;font-size:14px;opacity:.92;
+  text-decoration:none; color:var(--fg); font-weight:600; font-size:15px;
+  opacity:.9; transition: opacity .15s;
+  padding:8px 12px; border-radius:6px;
 }
-.nav-link:hover{opacity:1}
+.nav-link:hover{opacity:1; background:rgba(255,255,255,.08)}
 
 .icon-toggle{
-  width:36px;height:36px;display:grid;place-items:center;
-  background:transparent;border:1px solid var(--hair);border-radius:50%;
+  width:44px;height:44px;display:grid;place-items:center;
+  background:transparent;border:none;
+  cursor:pointer;transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);
+  position:relative;
 }
-.icon-toggle svg{width:18px;height:18px;color:var(--fg)}
+.icon-toggle:hover{transform:scale(1.15)}
+.icon-toggle:active{transform:scale(0.95)}
+.icon-toggle svg{width:22px;height:22px;color:var(--fg);transition:transform .3s, opacity .2s;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))}
+.icon-toggle:hover svg{transform:rotate(20deg)}
+
+/* Mobile menu toggle button */
+.mobile-menu-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  background: var(--panel);
+  border: 1px solid var(--hair);
+  border-radius: 8px;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0;
+  transition: transform .2s;
+}
+.mobile-menu-toggle:hover {
+  transform: scale(1.05);
+}
+.mobile-menu-toggle span {
+  width: 20px;
+  height: 2px;
+  background: var(--fg);
+  border-radius: 2px;
+  transition: transform .3s, opacity .3s;
+}
+.mobile-menu-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.mobile-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+.mobile-menu-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile drawer */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  height: 100vh;
+  background: var(--panel);
+  border-left: 1px solid var(--hair);
+  z-index: 1000;
+  transition: right 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+.mobile-drawer.active {
+  right: 0;
+}
+.mobile-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--hair);
+}
+.mobile-drawer-header h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--accent);
+}
+.mobile-close {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  transition: background .2s;
+}
+.mobile-close:hover {
+  background: rgba(255,255,255,.1);
+}
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mobile-nav-links .nav-link {
+  padding: 14px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: background .2s, color .2s;
+}
+.mobile-nav-links .nav-link:hover {
+  background: rgba(125,110,255,.1);
+  color: var(--accent);
+}
+
+/* Mobile overlay */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.mobile-overlay.active {
+  display: block;
+  opacity: 1;
+}
 
 /* Mobile navigation */
 @media (max-width: 768px) {
-  .topbar { top:12px; right:12px; left:12px; gap:12px; padding:8px 0; }
-  .nav-logo img { height:34px; }
-  .nav-right { gap:14px; flex-wrap:wrap; }
-  .nav-link { font-size:13px; padding:8px 6px; min-width:48px; text-align:center; border-radius:6px; }
-  .nav-link:hover { background:var(--hair); }
-  .icon-toggle { width:40px; height:40px; }
-  .icon-toggle svg { width:20px; height:20px; }
-}
-@media (max-width: 480px) {
-  .nav-right { justify-content:center; width:100%; }
-  .nav-link { font-size:12px; padding:6px 4px; min-width:42px; }
+  .topbar { padding:12px 20px; gap:12px; }
+  .nav-logo img { height:48px; }
+  .nav-right { display: none; }
+  .mobile-brand { display: block; }
+  .nav-logo-text { display: none; }
+  .mobile-menu-toggle { display: flex; }
 }
 
-.header{
-  padding:clamp(60px,12vw,160px) clamp(20px,6vw,80px);
-  text-align:center;position:relative;
+/* Main content wrapper */
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+  padding-top: 88px;
 }
-.header h1{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(40px,8vw,100px);
-  line-height:1.05;margin:0;
+
+/* Hero section */
+.hero{
+  padding:clamp(60px,12vw,120px) clamp(20px,6vw,80px) clamp(40px,8vw,60px);
+  text-align:center;
+  max-width:1200px;
+  margin:0 auto;
 }
-.header p{
+.hero h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(48px,9vw,96px);
+  line-height:1.05;
+  margin:0 0 20px 0;
+  font-weight:700;
+  letter-spacing:-0.02em;
+  text-shadow:var(--headline-shadow);
+}
+.hero p{
   color:var(--muted);
-  font-size:clamp(16px,2vw,22px);
-  max-width:60ch;margin:20px auto 0 auto;
+  font-size:clamp(18px,2.2vw,22px);
+  max-width:68ch;
+  margin:0 auto 40px auto;
+  line-height:1.5;
 }
-.wave{height:140px;width:100%;display:block;margin:40px auto 0 auto}
-
-/* Scroll cue styles */
-.scroll-cue {
-  position:absolute;
-  left:50%;
-  bottom:20px;
-  transform:translateX(-50%);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  animation:bounce 1.8s infinite;
+.hero-ctas {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-.scroll-cue svg{
-  width:28px;
-  height:28px;
-  stroke:var(--muted);
-  stroke-width:2;
-  fill:none;
+.cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+  padding: 0 32px;
+  border-radius: 14px;
+  background: var(--cta-bg);
+  color: var(--cta-fg);
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  transition: transform .12s, box-shadow .12s;
+  box-shadow: var(--cta-shadow);
 }
-@keyframes bounce {
-  0%,20%,50%,80%,100% {transform:translate(-50%,0);}
-  40% {transform:translate(-50%,6px);}
-  60% {transform:translate(-50%,3px);}
+.cta-primary svg {
+  width: 18px;
+  height: 18px;
+  transition: transform .12s;
 }
-
-.services{
-  padding:clamp(40px,8vw,100px) clamp(20px,6vw,80px);
-  max-width:900px;margin:0 auto;
-  display:grid;gap:42px;
+.cta-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 20px 44px rgba(125,110,255,.5);
 }
-@media (max-width: 480px) {
-  .services { gap:32px; }
+.cta-primary:hover svg {
+  transform: translateX(4px);
 }
-.service{text-align:center;}
-.service h2{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(24px,6vw,42px);
-  margin:0 0 10px 0;
+.cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+  padding: 0 32px;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--fg);
+  border: 1.5px solid var(--hair);
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  transition: transform .12s, border-color .12s, background .12s;
 }
-.service p{
-  color:var(--muted);
-  font-size:clamp(15px,2vw,18px);
-  margin:0 auto;max-width:60ch;
-}
-@media (max-width: 480px) {
-  .service h2 { font-size:clamp(22px,7.5vw,28px); }
-  .service p { font-size:clamp(14px,4vw,16px); max-width:none; }
-}
-
-.cta{
-  margin:50px auto 0 auto;
-  display:inline-flex;
-  height:52px;
-  padding:0 28px;
-  align-items:center;
-  border-radius:14px;
-  font-weight:800;
-  font-size:16px;
-  color:#0b0e14;
-  background:linear-gradient(135deg,#f6f7ff,#dfe3ff);
-  border:1px solid rgba(0,0,0,.22);
-  text-decoration:none;
-  transition:transform .25s ease, box-shadow .25s ease;
-}
-.cta:hover{
-  transform:translateY(-2px);
-  box-shadow:0 10px 24px rgba(0,0,0,.25);
+.cta-secondary:hover {
+  background: rgba(255,255,255,.05);
+  border-color: var(--accent);
+  transform: translateY(-2px);
 }
 
+/* Section styles */
+.section {
+  padding: clamp(60px,12vw,120px) clamp(20px,6vw,80px);
+  border-top: 1px solid var(--hair);
+  background: var(--bg);
+  position: relative;
+  z-index: 1;
+}
+.section-header {
+  text-align: center;
+  margin-bottom: clamp(48px,8vw,80px);
+}
+.section-header h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(38px,7.5vw,76px);
+  line-height: 1;
+  margin: 0 0 20px 0;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.section-header p {
+  color: var(--muted);
+  font-size: clamp(17px,2.2vw,20px);
+  margin: 0;
+  line-height: 1.4;
+  max-width: 64ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* List grid */
+.list-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+}
+.list-item {
+  background: var(--panel);
+  border: 1.5px solid var(--hair);
+  border-radius: 16px;
+  padding: clamp(28px,4vw,40px);
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+.list-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 20px 40px rgba(0,0,0,.3);
+}
+.list-item h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(18px,2.5vw,22px);
+  margin: 0 0 12px 0;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--accent);
+}
+.list-item p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Footer */
 footer{
   padding:64px clamp(20px,6vw,80px);
   border-top:1px solid var(--hair);
@@ -180,64 +430,22 @@ footer{
   gap:20px;
   flex-wrap:wrap;
   color:var(--muted);
+  position:relative;
+  z-index:1;
 }
 
-/* Enhanced mobile experience */
 @media (max-width: 768px) {
-  .header {
-    padding:clamp(60px,12vw,90px) clamp(20px,5vw,40px);
-    min-height:80vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
+  .hero-ctas {
+    flex-direction: column;
+    align-items: stretch;
   }
-  .header h1 {
-    font-size:clamp(36px,12vw,64px);
-    line-height:1.1;
-    margin-bottom:16px;
+  .cta-primary,
+  .cta-secondary {
+    width: 100%;
+    justify-content: center;
   }
-  .header p {
-    font-size:clamp(16px,4.5vw,20px);
-    line-height:1.4;
-    margin:0 auto 32px auto;
-  }
-  .wave {
-    height:120px;
-    margin:32px auto 0 auto;
-    flex-shrink:0;
-  }
-  .scroll-cue {
-    bottom:20px;
-    opacity:0.8;
-  }
-  .scroll-cue svg {
-    width:26px;
-    height:26px;
-  }
-  .services {
-    padding:clamp(40px,8vw,80px) clamp(20px,5vw,40px);
-    gap:40px;
-  }
-  .service {
-    padding:20px 0;
-  }
-  .service h2 {
-    font-size:clamp(24px,8vw,36px);
-    margin-bottom:16px;
-    line-height:1.2;
-  }
-  .service p {
-    font-size:clamp(15px,4vw,18px);
-    line-height:1.5;
-    margin:0 auto;
-  }
-  .cta {
-    height:52px;
-    padding:0 28px;
-    font-size:16px;
-    margin:48px auto 0 auto;
-    min-width:200px;
-    border-radius:16px;
+  .list-grid {
+    grid-template-columns: 1fr;
   }
   footer {
     padding:56px clamp(20px,5vw,40px);
@@ -245,9 +453,6 @@ footer{
     text-align:center;
     gap:20px;
     font-size:15px;
-  }
-  footer nav {
-    margin-top:8px;
   }
 }
 </style>
@@ -257,13 +462,16 @@ footer{
 <header class="topbar" role="navigation" aria-label="Primary">
   <a href="index.html" class="nav-logo" aria-label="Trove Digital Home">
     <img src="trove_logo_only-removebg-preview.png" alt="Trove Digital Logo" />
+    <span class="nav-logo-text">Trove Digital</span>
   </a>
+  <span class="mobile-brand">Trove Digital</span>
   <div class="nav-right">
     <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="work.html">Portfolio</a>
     <a class="nav-link" href="services.html" aria-current="page">Services</a>
     <a class="nav-link" href="about.html">About</a>
     <a class="nav-link" href="blog/index.html">Blog</a>
-    <a class="nav-link" href="mailto:tom@trovedigital.com?subject=Project%20enquiry">Contact</a>
+    <a class="nav-link" href="mailto:tom@trovedigital.com.au?subject=Project%20enquiry">Contact</a>
     <button id="themeToggle" class="icon-toggle" aria-label="Toggle dark/light theme" title="Toggle theme">
       <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
         <circle cx="12" cy="12" r="4"></circle>
@@ -274,133 +482,213 @@ footer{
       </svg>
     </button>
   </div>
+  <button class="mobile-menu-toggle" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </header>
 
-<section class="header">
-  <h1>What we create</h1>
-  <p>
-    We design and build bespoke websites and custom web apps for ambitious SMEs—fast,
-    intentional and unmistakably human.
-  </p>
+<!-- Mobile drawer overlay -->
+<div class="mobile-overlay"></div>
 
-  <svg class="wave" viewBox="0 0 1000 140" preserveAspectRatio="none">
-    <defs>
-      <linearGradient id="g1" x1="0" x2="1" y1="0" y2="0">
-        <stop offset="0%" id="g1-start" stop-color="#6f64ff" stop-opacity=".8"/>
-        <stop offset="100%" id="g1-end" stop-color="#ff6b8a" stop-opacity=".8"/>
-      </linearGradient>
-      <linearGradient id="g2" x1="0" x2="1" y1="0" y2="0">
-        <stop offset="0%" id="g2-start" stop-color="#5b4dff" stop-opacity=".6"/>
-        <stop offset="100%" id="g2-end" stop-color="#ffa6a6" stop-opacity=".6"/>
-      </linearGradient>
-      <linearGradient id="g3" x1="0" x2="1" y1="0" y2="0">
-        <stop offset="0%" id="g3-start" stop-color="#9a92ff" stop-opacity=".4"/>
-        <stop offset="100%" id="g3-end" stop-color="#ff8aa1" stop-opacity=".4"/>
-      </linearGradient>
-      <filter id="soft"><feGaussianBlur in="SourceGraphic" stdDeviation="1.2"/></filter>
-    </defs>
-    <path id="p1" d="" stroke="url(#g1)" stroke-width="2" fill="none" filter="url(#soft)"/>
-    <path id="p2" d="" stroke="url(#g2)" stroke-width="1" fill="none"/>
-    <path id="p3" d="" stroke="url(#g3)" stroke-width="1.4" fill="none"/>
-  </svg>
+<!-- Mobile drawer menu -->
+<aside class="mobile-drawer">
+  <div class="mobile-drawer-header">
+    <h3>Menu</h3>
+    <button class="mobile-close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+  <nav class="mobile-nav-links">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="work.html">Portfolio</a>
+    <a class="nav-link" href="services.html" aria-current="page">Services</a>
+    <a class="nav-link" href="about.html">About</a>
+    <a class="nav-link" href="blog/index.html">Blog</a>
+    <a class="nav-link" href="mailto:tom@trovedigital.com.au?subject=Project%20enquiry">Contact</a>
+  </nav>
+  <div style="margin-top: auto; padding-top: 24px; border-top: 1px solid var(--hair);">
+    <button id="mobileThemeToggle" class="icon-toggle" style="width: 100%;" aria-label="Toggle dark/light theme" title="Toggle theme">
+      <svg id="mobile-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+      </svg>
+      <svg id="mobile-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+  </div>
+</aside>
 
-  <!-- subtle scroll indicator -->
-  <div class="scroll-cue">
-    <svg viewBox="0 0 24 24">
-      <polyline points="6 9 12 15 18 9" />
-    </svg>
-  </div>
-</section>
+<div class="content-wrapper">
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Services</h1>
+    <p>
+      Custom websites and web apps for Australian SMEs. From one-off projects to ongoing partnerships.
+    </p>
+    <div class="hero-ctas">
+      <a href="mailto:tom@trovedigital.com.au?subject=Project%20enquiry" class="cta-primary">
+        Get a Quote
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M13 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a href="work.html" class="cta-secondary">View Portfolio</a>
+    </div>
+  </section>
 
-<section class="services">
-  <div class="service">
-    <h2>Websites</h2>
-    <p>Custom marketing sites that carry your voice and load fast. Distinct design, deliberate motion, no templates.</p>
-  </div>
-  <div class="service">
-    <h2>Custom Apps</h2>
-    <p>Lightweight internal tools and client portals that make day-to-day work smoother for SMEs.</p>
-  </div>
-  <div class="service">
-    <h2>Ongoing Partnership</h2>
-    <p>We can stay on as your quiet design & build team—iterating and refining as your business grows.</p>
-  </div>
+  <!-- What we build -->
+  <section class="section">
+    <div class="section-header">
+      <h2>What we build</h2>
+    </div>
+    <div class="list-grid">
+      <div class="list-item">
+        <h3>Marketing Websites</h3>
+        <p>Custom sites built to convert visitors into customers. Fast, beautiful, and built to rank.</p>
+      </div>
+      <div class="list-item">
+        <h3>E-commerce Stores</h3>
+        <p>Online stores with payment processing, inventory management, and everything you need to sell online.</p>
+      </div>
+      <div class="list-item">
+        <h3>Web Applications</h3>
+        <p>Custom tools and internal systems built specifically for your business needs.</p>
+      </div>
+      <div class="list-item">
+        <h3>Client Portals</h3>
+        <p>Secure login areas where your clients can access documents, track orders, or manage their accounts.</p>
+      </div>
+      <div class="list-item">
+        <h3>Booking Systems</h3>
+        <p>Let customers book appointments, services, or rentals directly through your website.</p>
+      </div>
+      <div class="list-item">
+        <h3>Website Redesigns</h3>
+        <p>Already have a site? We'll rebuild it with modern design and better performance.</p>
+      </div>
+    </div>
+  </section>
 
-  <a class="cta" href="mailto:tom@trovedigital.com?subject=Project%20enquiry">Contact us</a>
-</section>
+  <!-- How we work -->
+  <section class="section">
+    <div class="section-header">
+      <h2>How we work</h2>
+    </div>
+    <div class="list-grid">
+      <div class="list-item">
+        <h3>Discovery Call</h3>
+        <p>We chat about your business, your goals, and what you need from your website.</p>
+      </div>
+      <div class="list-item">
+        <h3>Quote & Timeline</h3>
+        <p>You get a fixed price quote and clear timeline before we start any work.</p>
+      </div>
+      <div class="list-item">
+        <h3>Design & Build</h3>
+        <p>We design your site, get your approval, then build it. You see progress throughout.</p>
+      </div>
+      <div class="list-item">
+        <h3>Launch & Support</h3>
+        <p>We launch your site and provide training. Ongoing support available if you need it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Ready to start?</h2>
+      <p>Get in touch and we'll get back to you within 24 hours.</p>
+    </div>
+    <div class="hero-ctas">
+      <a href="mailto:tom@trovedigital.com.au?subject=Project%20enquiry" class="cta-primary">
+        Email us
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M13 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+</div>
 
 <footer>
-  <div>© Trove Digital — handcrafted on the web</div>
+  <div>© Trove Digital — handcrafted on the web<br><small>ABN 74 690 833 357</small></div>
   <nav>
     <a href="index.html">Home</a> ·
+    <a href="work.html">Portfolio</a> ·
+    <a href="services.html">Services</a> ·
     <a href="about.html">About</a> ·
     <a href="blog/index.html">Blog</a> ·
-    <a href="mailto:tom@trovedigital.com">Email</a>
+    <a href="mailto:tom@trovedigital.com.au">Email</a>
   </nav>
 </footer>
 
 <script>
+// Theme toggle - make root, s, m global for mobile drawer
+const root=document.documentElement, s=document.getElementById('icon-sun'), m=document.getElementById('icon-moon');
+
 (function(){
-  const root=document.documentElement,
-        t=document.getElementById('themeToggle'),
-        s=document.getElementById('icon-sun'),
-        m=document.getElementById('icon-moon');
-
-  // Wave color palettes matching homepage
-  const palDark=[['#6f64ff','#ff6b8a'],['#5b4dff','#ffa6a6'],['#9a92ff','#ff8aa1']];
-  const palLight=[['#5d6cff','#ff7a98'],['#4c57ff','#ff8fa9'],['#85a0ff','#ff95ad']];
-
-  function applyWaveTheme(theme) {
-    const pal = theme === 'light' ? palLight : palDark;
-    const opacities = ['.8', '.6', '.4'];
-    pal.forEach(([c1, c2], i) => {
-      const gradientNum = i + 1;
-      document.getElementById(`g${gradientNum}-start`).setAttribute('stop-color', c1);
-      document.getElementById(`g${gradientNum}-end`).setAttribute('stop-color', c2);
-    });
-  }
-
-  const saved=localStorage.getItem('trove-theme');
-  const system=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
-  const initial=saved||system;
-  root.setAttribute('data-theme',initial);
-  s.style.display=initial==='light'?'block':'none';
-  m.style.display=initial==='light'?'none':'block';
-  applyWaveTheme(initial);
-
-  t.addEventListener('click',()=>{
-    const next=root.getAttribute('data-theme')==='light'?'dark':'light';
-    root.setAttribute('data-theme',next);
-    localStorage.setItem('trove-theme',next);
-    s.style.display=next==='light'?'block':'none';
-    m.style.display=next==='light'?'none':'block';
-    applyWaveTheme(next);
-  });
+  const t=document.getElementById('themeToggle');
+  const saved=localStorage.getItem('trove-theme'); const system=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+  const initial=saved||system; root.setAttribute('data-theme',initial); s.style.display=initial==='light'?'block':'none'; m.style.display=initial==='light'?'none':'block';
+  t.addEventListener('click',()=>{const next=root.getAttribute('data-theme')==='light'?'dark':'light'; root.setAttribute('data-theme',next); localStorage.setItem('trove-theme',next); s.style.display=next==='light'?'block':'none'; m.style.display=next==='light'?'none':'block';});
 })();
 
-// animate wave divider
+// Mobile drawer navigation
 (function(){
-  const p1=document.getElementById('p1'),
-        p2=document.getElementById('p2'),
-        p3=document.getElementById('p3');
-  const W=1000,H=140;
-  function path(t,amp,freq,phase){
-    const pts=[];
-    for(let x=0;x<=W;x+=8){
-      const y=H/2 + Math.sin((x/W)*Math.PI*freq + t + phase)*amp;
-      pts.push([x,y]);
-    }
-    return 'M'+pts.map(p=>p.join(',')).join(' L ');
+  const menuToggle = document.querySelector('.mobile-menu-toggle');
+  const drawer = document.querySelector('.mobile-drawer');
+  const overlay = document.querySelector('.mobile-overlay');
+  const closeBtn = document.querySelector('.mobile-close');
+  const drawerLinks = document.querySelectorAll('.mobile-drawer .nav-link');
+
+  function openDrawer() {
+    drawer.classList.add('active');
+    overlay.classList.add('active');
+    menuToggle.classList.add('active');
+    document.body.style.overflow = 'hidden';
   }
-  let t=0;
-  function tick(){
-    t+=0.02;
-    p1.setAttribute('d', path(t,12,2.0,0.0));
-    p2.setAttribute('d', path(t*0.9,8,2.6,0.8));
-    p3.setAttribute('d', path(t*1.1,5,3.2,1.6));
-    requestAnimationFrame(tick);
+
+  function closeDrawer() {
+    drawer.classList.remove('active');
+    overlay.classList.remove('active');
+    menuToggle.classList.remove('active');
+    document.body.style.overflow = '';
   }
-  tick();
+
+  menuToggle.addEventListener('click', openDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+
+  drawerLinks.forEach(link => {
+    link.addEventListener('click', closeDrawer);
+  });
+
+  // Mobile theme toggle
+  const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+  const mobileSun = document.getElementById('mobile-icon-sun');
+  const mobileMoon = document.getElementById('mobile-icon-moon');
+
+  mobileThemeToggle.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('trove-theme', next);
+    s.style.display = next === 'light' ? 'block' : 'none';
+    m.style.display = next === 'light' ? 'none' : 'block';
+    mobileSun.style.display = next === 'light' ? 'block' : 'none';
+    mobileMoon.style.display = next === 'light' ? 'none' : 'block';
+  });
+
+  // Sync mobile theme toggle icons with initial theme
+  const currentTheme = root.getAttribute('data-theme');
+  mobileSun.style.display = currentTheme === 'light' ? 'block' : 'none';
+  mobileMoon.style.display = currentTheme === 'light' ? 'none' : 'block';
 })();
 </script>
 </body>
