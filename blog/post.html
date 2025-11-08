@@ -1,60 +1,450 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8" />
+<script>
+// Apply theme immediately to prevent flash
+(function(){
+  const saved = localStorage.getItem('trove-theme');
+  const system = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  const theme = saved || system;
+  document.documentElement.setAttribute('data-theme', theme);
+})();
+</script>
 <title>Post — Trove Digital</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="../trove_logo_only-removebg-preview.png" />
+<link rel="apple-touch-icon" href="../trove_logo_only-removebg-preview.png" />
+
+<!-- Markdown parser -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <style>
-:root{ --bg:#0a0a0c; --fg:#fff; --soft:#f3f4f8; --muted:#c9cbd3; --hair:#ffffff26 }
-html[data-theme="light"]{ --bg:#fff; --fg:#0b0e14; --soft:#0e1117; --muted:#2d313c; --hair:#00000022 }
-*{box-sizing:border-box} html,body{margin:0;height:100%;background:var(--bg);color:var(--fg)}
-body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-a{color:inherit}
-.topbar{position:fixed;top:16px;right:16px;left:16px;z-index:3;display:flex;justify-content:flex-end;gap:18px}
-.nav-right{display:flex;align-items:center;gap:18px}
-.nav-link{text-decoration:underline;color:var(--fg);font-weight:600;font-size:14px;opacity:.92}
-.nav-link:hover{opacity:1}
-.icon-toggle{width:36px;height:36px;display:grid;place-items:center;background:transparent;border:1px solid var(--hair);border-radius:50%}
-.icon-toggle svg{width:18px;height:18px;color:var(--fg)}
-
-.header{ padding: clamp(56px, 12vw, 140px) clamp(20px, 6vw, 80px) 24px }
-.title{ font-family:'Playfair Display',serif; font-size: clamp(28px, 5vw, 48px); margin:0; line-height:1.2 }
-.meta{ color:var(--muted); margin:10px 0 0 0 }
-
-.main{ border-top:1px solid var(--hair); padding: clamp(24px, 6vw, 48px) clamp(20px, 6vw, 80px) }
-.wrap{ display:grid; grid-template-columns: 1fr; gap:20px }
-.content{ color:var(--soft); line-height:1.6; max-width: 82ch; }
-.content h1,.content h2,.content h3{ color:var(--fg); font-family:'Playfair Display',serif }
-.content pre{ background: color-mix(in oklab, var(--bg) 84%, black); padding:14px; border-radius:12px; overflow:auto; border:1px solid var(--hair) }
-.content code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace }
-.content img{ max-width:100%; height:auto; border-radius:12px; border:1px solid var(--hair) }
-
-.sidenotes{ color:var(--muted); font-size:14px }
-.note{ padding:8px 0; border-bottom:1px dashed var(--hair) }
-
-@media (min-width: 1100px){
-  .wrap{ grid-template-columns: minmax(0, 820px) 280px }
-  .sidenotes{ position: sticky; top:80px; align-self:start }
+:root {
+  --bg:#0a0a0c; --fg:#ffffff; --fg-soft:#f5f6f8; --muted:#c9cbd3;
+  --panel:#101015; --hair:#ffffff26;
+  --accent:#7d6eff; --accent-2:#ff7394; --accent-warm:#ff6b5e;
+  --bg-rgb:10, 10, 12;
+  --cta-fg:#ffffff;
+  --cta-bg:#7d6eff;
+  --cta-shadow:0 8px 24px rgba(125,110,255,.4);
+  --hero-gradient: linear-gradient(135deg, rgba(125,110,255,.12) 0%, rgba(255,115,148,.12) 50%, rgba(255,107,94,.12) 100%);
 }
-.back{ display:inline-block; margin-top:24px; color:var(--muted); text-decoration:underline }
+html[data-theme="light"]{
+  --bg:#ffffff; --fg:#0b0e14; --fg-soft:#111318; --muted:#2d313c;
+  --panel:#ffffff; --hair:#00000022;
+  --accent:#5d69ff; --accent-2:#ff6f92; --accent-warm:#ff6952;
+  --bg-rgb:255, 255, 255;
+  --topbar-bg:rgba(255,255,255,.85);
+  --cta-fg:#ffffff;
+  --cta-bg:#5d69ff;
+  --cta-shadow:0 6px 20px rgba(93,105,255,.35);
+  --hero-gradient: linear-gradient(135deg, rgba(93,105,255,.08) 0%, rgba(255,111,146,.08) 50%, rgba(255,105,82,.08) 100%);
+}
+html[data-theme="light"] .topbar{ background:var(--topbar-bg); }
+*{box-sizing:border-box}
+html,body{min-height:100%;margin:0;background:var(--bg);color:var(--fg)}
+body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow-x:hidden;transition:background .2s,color .2s;position:relative}
+a{color:inherit}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--hero-gradient);
+  animation: gradientShift 8s ease-in-out infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+@keyframes gradientShift {
+  0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  50% { opacity: 0.8; transform: scale(1.05) rotate(2deg); }
+}
+
+/* Top bar */
+.topbar{
+  position:fixed; top:0; right:0; left:0; z-index:3;
+  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  background:rgba(10,10,12,.85);
+  border-bottom:1px solid var(--hair);
+  padding:16px clamp(20px,4vw,40px);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  box-shadow:0 2px 12px rgba(0,0,0,.08);
+  transition:padding .2s, box-shadow .2s;
+}
+.nav-logo{display:flex; align-items:center; text-decoration:none;}
+.nav-logo img{
+  height:56px; width:auto;
+  transition:transform .2s ease, filter .2s ease;
+  animation:logoFloat 3s ease-in-out infinite;
+}
+.nav-logo:hover img{transform:scale(1.12) rotate(3deg); filter:brightness(1.15);}
+
+@keyframes logoFloat {
+  0%, 100% { transform:translateY(0px) rotate(0deg); }
+  50% { transform:translateY(-3px) rotate(1.5deg); }
+}
+.nav-logo-text {
+  margin-left: 12px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+}
+
+.mobile-brand {
+  display: none;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+}
+.nav-right{display:flex; align-items:center; gap:24px}
+.nav-link{
+  text-decoration:none; color:var(--fg); font-weight:600; font-size:15px;
+  opacity:.9; transition: opacity .15s;
+  padding:8px 12px; border-radius:6px;
+}
+.nav-link:hover{opacity:1; background:rgba(255,255,255,.08)}
+
+.icon-toggle{
+  width:44px;height:44px;display:grid;place-items:center;
+  background:transparent;border:none;
+  cursor:pointer;transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);
+  position:relative;
+}
+.icon-toggle:hover{transform:scale(1.15)}
+.icon-toggle:active{transform:scale(0.95)}
+.icon-toggle svg{width:22px;height:22px;color:var(--fg);transition:transform .3s, opacity .2s;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))}
+.icon-toggle:hover svg{transform:rotate(20deg)}
+
+/* Mobile menu toggle button */
+.mobile-menu-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  background: var(--panel);
+  border: 1px solid var(--hair);
+  border-radius: 8px;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0;
+  transition: transform .2s;
+}
+.mobile-menu-toggle:hover {
+  transform: scale(1.05);
+}
+.mobile-menu-toggle span {
+  width: 20px;
+  height: 2px;
+  background: var(--fg);
+  border-radius: 2px;
+  transition: transform .3s, opacity .3s;
+}
+.mobile-menu-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.mobile-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+.mobile-menu-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile drawer */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  height: 100vh;
+  background: var(--panel);
+  border-left: 1px solid var(--hair);
+  z-index: 1000;
+  transition: right 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+.mobile-drawer.active {
+  right: 0;
+}
+.mobile-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--hair);
+}
+.mobile-drawer-header h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--accent);
+}
+.mobile-close {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  transition: background .2s;
+}
+.mobile-close:hover {
+  background: rgba(255,255,255,.1);
+}
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mobile-nav-links .nav-link {
+  padding: 14px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: background .2s, color .2s;
+}
+.mobile-nav-links .nav-link:hover {
+  background: rgba(125,110,255,.1);
+  color: var(--accent);
+}
+
+/* Mobile overlay */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.mobile-overlay.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Mobile navigation */
+@media (max-width: 768px) {
+  .topbar { padding:12px 20px; gap:12px; }
+  .nav-logo img { height:48px; }
+  .nav-right { display: none; }
+  .mobile-brand { display: block; }
+  .nav-logo-text { display: none; }
+  .mobile-menu-toggle { display: flex; }
+}
+
+/* Header */
+.header{
+  position:relative; z-index:1;
+  padding: clamp(120px, 16vw, 160px) clamp(20px, 4vw, 40px) clamp(40px, 6vw, 60px);
+  max-width:1100px; margin:0 auto;
+}
+.title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size: clamp(32px, 6vw, 56px);
+  font-weight:700;
+  margin:0 0 16px 0;
+  line-height:1.2;
+  letter-spacing:-0.02em;
+  color:var(--fg);
+}
+.meta{
+  color:var(--muted);
+  font-size:14px;
+  font-weight:700;
+  font-family:'Space Grotesk',sans-serif;
+  margin:0;
+}
+
+/* Content */
+.main{
+  position:relative; z-index:1;
+  padding: 0 clamp(20px, 4vw, 40px) clamp(60px, 8vw, 100px);
+  max-width:1100px;
+  margin:0 auto;
+}
+.content{
+  background:var(--panel);
+  border:1px solid var(--hair);
+  border-radius:16px;
+  padding:clamp(32px, 6vw, 64px);
+  box-shadow:0 4px 24px rgba(0,0,0,.12);
+  line-height:1.7;
+  font-size:17px;
+  color:var(--fg-soft);
+}
+.content h1, .content h2, .content h3{
+  font-family:'Space Grotesk',sans-serif;
+  color:var(--fg);
+  font-weight:700;
+  line-height:1.3;
+  margin:2em 0 0.8em 0;
+}
+.content h1{ font-size:clamp(28px, 5vw, 40px); }
+.content h2{ font-size:clamp(24px, 4vw, 32px); }
+.content h3{ font-size:clamp(20px, 3vw, 24px); }
+.content h1:first-child, .content h2:first-child, .content h3:first-child{ margin-top:0; }
+.content p{ margin:1.2em 0; }
+.content ul, .content ol{
+  margin:1.2em 0;
+  padding-left:1.5em;
+}
+.content li{ margin:0.6em 0; }
+.content a{
+  color:var(--accent);
+  text-decoration:underline;
+  transition:opacity .2s;
+}
+.content a:hover{ opacity:0.8; }
+.content code{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background:rgba(var(--bg-rgb), .5);
+  padding:2px 6px;
+  border-radius:4px;
+  font-size:0.9em;
+}
+.content pre{
+  background:rgba(var(--bg-rgb), .5);
+  padding:20px;
+  border-radius:12px;
+  overflow:auto;
+  border:1px solid var(--hair);
+}
+.content pre code{
+  background:none;
+  padding:0;
+}
+.content blockquote{
+  border-left:3px solid var(--accent);
+  padding-left:1.5em;
+  margin:1.5em 0;
+  color:var(--muted);
+  font-style:italic;
+}
+.content hr{
+  border:none;
+  border-top:1px solid var(--hair);
+  margin:2.5em 0;
+}
+
+.back{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:32px;
+  padding:12px 24px;
+  background:transparent;
+  border:2px solid var(--hair);
+  color:var(--fg);
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:700;
+  font-size:15px;
+  font-family:'Space Grotesk',sans-serif;
+  transition:all .3s;
+}
+.back:hover{
+  border-color:var(--accent);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(125,110,255,.2);
+}
+
+@media (max-width: 768px) {
+  .header { padding: clamp(100px, 14vw, 120px) 20px clamp(30px, 5vw, 40px); }
+  .content { padding: clamp(24px, 5vw, 32px); font-size:16px; }
+}
 </style>
 </head>
 <body>
 <header class="topbar" role="navigation" aria-label="Primary">
+  <a href="../index.html" class="nav-logo" aria-label="Trove Digital Home">
+    <img src="../trove_logo_only-removebg-preview.png" alt="Trove Digital Logo" />
+    <span class="nav-logo-text">Trove Digital</span>
+  </a>
+  <span class="mobile-brand">Trove Digital</span>
   <div class="nav-right">
     <a class="nav-link" href="../index.html">Home</a>
+    <a class="nav-link" href="../work.html">Portfolio</a>
     <a class="nav-link" href="../services.html">Services</a>
     <a class="nav-link" href="../about.html">About</a>
-    <a class="nav-link" href="index.html">Blog</a>
-    <a class="nav-link" href="mailto:hello@trovedigital.com?subject=Project%20enquiry">Contact</a>
+    <a class="nav-link" href="index.html" aria-current="page">Blog</a>
+    <a class="nav-link" href="mailto:tom@trovedigital.com.au?subject=Project%20enquiry">Contact</a>
     <button id="themeToggle" class="icon-toggle" aria-label="Toggle dark/light theme" title="Toggle theme">
-      <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
-      <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+      </svg>
+      <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
     </button>
   </div>
+  <button class="mobile-menu-toggle" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </header>
+
+<!-- Mobile drawer overlay -->
+<div class="mobile-overlay"></div>
+
+<!-- Mobile drawer menu -->
+<aside class="mobile-drawer">
+  <div class="mobile-drawer-header">
+    <h3>Menu</h3>
+    <button class="mobile-close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+  <nav class="mobile-nav-links">
+    <a class="nav-link" href="../index.html">Home</a>
+    <a class="nav-link" href="../work.html">Portfolio</a>
+    <a class="nav-link" href="../services.html">Services</a>
+    <a class="nav-link" href="../about.html">About</a>
+    <a class="nav-link" href="index.html" aria-current="page">Blog</a>
+    <a class="nav-link" href="mailto:tom@trovedigital.com.au?subject=Project%20enquiry">Contact</a>
+  </nav>
+  <div style="margin-top: auto; padding-top: 24px; border-top: 1px solid var(--hair);">
+    <button id="mobileThemeToggle" class="icon-toggle" style="width: 100%;" aria-label="Toggle dark/light theme" title="Toggle theme">
+      <svg id="mobile-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+      </svg>
+      <svg id="mobile-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+  </div>
+</aside>
 
 <section class="header">
   <h1 class="title" id="postTitle">Post</h1>
@@ -62,15 +452,92 @@ a{color:inherit}
 </section>
 
 <main class="main">
-  <div class="wrap">
-    <article class="content" id="content"></article>
-    <aside class="sidenotes" id="notes"></aside>
-  </div>
-  <a class="back" href="index.html">← Back to Notes</a>
+  <article class="content" id="content"></article>
+  <a class="back" href="index.html">← Back to Blog</a>
 </main>
 
 <script>
-(function(){const root=document.documentElement,t=document.getElementById('themeToggle'),s=document.getElementById('icon-sun'),m=document.getElementById('icon-moon');const saved=localStorage.getItem('trove-theme');const system=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';const initial=saved||system;root.setAttribute('data-theme',initial);s.style.display=initial==='light'?'block':'none';m.style.display=initial==='light'?'none':'block';t.addEventListener('click',()=>{const next=root.getAttribute('data-theme')==='light'?'dark':'light';root.setAttribute('data-theme',next);localStorage.setItem('trove-theme',next);s.style.display=next==='light'?'block':'none';m.style.display=next==='light'?'none':'block';});})();
+(function(){
+  const root=document.documentElement,
+        t=document.getElementById('themeToggle'),
+        s=document.getElementById('icon-sun'),
+        m=document.getElementById('icon-moon');
+
+  const saved=localStorage.getItem('trove-theme');
+  const system=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+  const initial=saved||system;
+  root.setAttribute('data-theme',initial);
+  s.style.display=initial==='light'?'block':'none';
+  m.style.display=initial==='light'?'none':'block';
+
+  t.addEventListener('click',()=>{
+    const next=root.getAttribute('data-theme')==='light'?'dark':'light';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('trove-theme',next);
+    s.style.display=next==='light'?'block':'none';
+    m.style.display=next==='light'?'none':'block';
+  });
+})();
+
+// Mobile drawer navigation
+(function(){
+  const menuToggle = document.querySelector('.mobile-menu-toggle');
+  const drawer = document.querySelector('.mobile-drawer');
+  const overlay = document.querySelector('.mobile-overlay');
+  const closeBtn = document.querySelector('.mobile-close');
+  const drawerLinks = document.querySelectorAll('.mobile-drawer .nav-link');
+
+  function openDrawer() {
+    drawer.classList.add('active');
+    overlay.classList.add('active');
+    menuToggle.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove('active');
+    overlay.classList.remove('active');
+    menuToggle.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  menuToggle.addEventListener('click', openDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+
+  drawerLinks.forEach(link => {
+    link.addEventListener('click', closeDrawer);
+  });
+
+  // Mobile theme toggle
+  const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+  const mobileSun = document.getElementById('mobile-icon-sun');
+  const mobileMoon = document.getElementById('mobile-icon-moon');
+
+  mobileThemeToggle.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('trove-theme', next);
+    s.style.display = next === 'light' ? 'block' : 'none';
+    m.style.display = next === 'light' ? 'none' : 'block';
+    mobileSun.style.display = next === 'light' ? 'block' : 'none';
+    mobileMoon.style.display = next === 'light' ? 'none' : 'block';
+  });
+
+  // Sync mobile theme toggle icons with initial theme
+  const currentTheme = root.getAttribute('data-theme');
+  mobileSun.style.display = currentTheme === 'light' ? 'block' : 'none';
+  mobileMoon.style.display = currentTheme === 'light' ? 'none' : 'block';
+})();
+
+// Format date to Australian format (DD/MM/YYYY)
+function formatAusDate(dateStr) {
+  const d = new Date(dateStr);
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
+}
 
 (async function(){
   const params = new URLSearchParams(location.search);
@@ -84,7 +551,7 @@ a{color:inherit}
     if(post){
       document.title = `${post.title} — Trove Digital`;
       document.getElementById('postTitle').textContent = post.title;
-      document.getElementById('postMeta').textContent = new Date(post.date).toLocaleDateString();
+      document.getElementById('postMeta').textContent = formatAusDate(post.date);
     } else {
       document.getElementById('postTitle').textContent = slug.replace(/-/g,' ');
     }
@@ -95,14 +562,6 @@ a{color:inherit}
     marked.setOptions({ breaks:true, gfm:true });
     const html = marked.parse(md);
     document.getElementById('content').innerHTML = html;
-
-    // sidenotes from blockquotes and h2s
-    const notes = [];
-    document.querySelectorAll('#content blockquote, #content h2').forEach(el=>{
-      const text = el.textContent.trim();
-      if(text) notes.push(text);
-    });
-    document.getElementById('notes').innerHTML = notes.map(n=>`<div class="note">${n}</div>`).join('');
 
   }catch(e){
     console.error('Post load error', e);
