@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8" />
 <title>HPS Recruitment Case Study — Trove Digital</title>
@@ -799,7 +799,7 @@ footer{
         m=document.getElementById('icon-moon');
 
   const saved=localStorage.getItem('trove-theme');
-  const system=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+  const system=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
   const initial=saved||system;
   root.setAttribute('data-theme',initial);
   s.style.display=initial==='light'?'block':'none';
